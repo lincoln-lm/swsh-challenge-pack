@@ -18,22 +18,24 @@ static const std::set<u64> starters = {
 
 static const std::map<u64, u64> hash_seed_map = {
     // sobble
-    {getConstFNV1aHashedString("z_t0101_MIZU").hash, 0x289d0e4aa0fd660d},
-    {getConstFNV1aHashedString("z_t0101_i0101_MIZU").hash, 0x289d0e4aa0fd660d},
+    { getConstFNV1aHashedString("z_t0101_MIZU").hash, 0x289d0e4aa0fd660d },
+    { getConstFNV1aHashedString("z_t0101_i0101_MIZU").hash, 0x289d0e4aa0fd660d },
     // scorbunny
-    {getConstFNV1aHashedString("z_t0101_HONO").hash, 0xe611a220de507f60},
-    {getConstFNV1aHashedString("z_t0101_i0101_HONO").hash, 0xe611a220de507f60},
+    { getConstFNV1aHashedString("z_t0101_HONO").hash, 0xe611a220de507f60 },
+    { getConstFNV1aHashedString("z_t0101_i0101_HONO").hash, 0xe611a220de507f60 },
     // grookey
-    {getConstFNV1aHashedString("z_t0101_KUSA").hash, 0xd0f69218d6d84126},
-    {getConstFNV1aHashedString("z_t0101_i0101_KUSA").hash, 0xd0f69218d6d84126},
-    // fog zamazenta 
-    {getConstFNV1aHashedString("z_d0101_PM_889_OOKAMIT").hash, 0x6f0b36ae4a5df4a9},
+    { getConstFNV1aHashedString("z_t0101_KUSA").hash, 0xd0f69218d6d84126 },
+    { getConstFNV1aHashedString("z_t0101_i0101_KUSA").hash, 0xd0f69218d6d84126 },
+    // fog zamazenta
+    { getConstFNV1aHashedString("z_d0101_PM_889_OOKAMIT").hash, 0x6f0b36ae4a5df4a9 },
     // TODO: fog zacian z_d0101_PM_888_OOKAMIK
-    {getConstFNV1aHashedString("z_r0501_i0101_PM_848_PUNKII1").hash, 0x534abd7f00ee7e61},
+    { getConstFNV1aHashedString("z_r0501_i0101_PM_848_PUNKII1").hash, 0x534abd7f00ee7e61 },
     // fire gym mons
-    {getConstFNV1aHashedString("z_c0101_g0102_CNT_POKE").hash, 0x59f8ac028fe0e5c},
-    {getConstFNV1aHashedString("z_c0101_g0102_RIGHT_POKE").hash, 0x59f8bc028fe100f},
-    {getConstFNV1aHashedString("z_c0101_g0102_LEFT_POKE").hash, 0x8c311b85a7bab25a},
+    { getConstFNV1aHashedString("z_c0101_g0102_CNT_POKE").hash, 0x59f8ac028fe0e5c },
+    { getConstFNV1aHashedString("z_c0101_g0102_RIGHT_POKE").hash, 0x59f8bc028fe100f },
+    { getConstFNV1aHashedString("z_c0101_g0102_LEFT_POKE").hash, 0x8c311b85a7bab25a },
+    // wedgehurst slowpoke
+    { getConstFNV1aHashedString("z_t0201_s0101_PM_79_YADONR").hash, 0xf619d64a8e0641cb },
 };
 
 static void replace_species_form(u64 hash, s32* species_ptr, s16* form_ptr) {
