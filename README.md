@@ -7,6 +7,8 @@
 ## Features
 - In-game configuration menu for the various features
 - RNG seed option for synchronizing runs
+- The intro is skipped (sorry Rose)
+- Instant text (hold B to auto close text boxes & speed up camera sequences)
 - Permadeath (when a Pok&eacute;mon faints it is deleted)
     - Toggleable
 - Nuzlocke route restriction (no Pok&eacute;mon will spawn after one is caught or defeated on a route)
