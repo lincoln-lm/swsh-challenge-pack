@@ -11,6 +11,9 @@
 - RNG seed option for synchronizing runs
 - The intro is skipped (sorry Rose)
 - Instant text (hold B to auto close text boxes & speed up camera sequences)
+- Trade evolutions instead evolve at level 30
+    - Trading with an item becomes leveling with that item
+    - Trading with a Pok&eacute;mon becomes leveling with that Pok&eacute;mon in the party
 - Permadeath (when a Pok&eacute;mon faints it is deleted)
     - Toggleable
 - Nuzlocke route restriction (no Pok&eacute;mon will spawn after one is caught or defeated on a route)
