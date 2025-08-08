@@ -35,6 +35,16 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "milo_magical_leaf", 0xa6c8, 337, 0 },
     { "milo_magical_leaf", 0xa760, 337, 0 },
     { "milo_magical_leaf", 0x10b88, 337, 0 },
+
+    { "nessa_whirlpool", 0xa9d0, 363, 0 },
+    { "nessa_whirlpool", 0xaa30, 363, 0 },
+    { "nessa_whirlpool", 0x2a88, 363, 2 },
+    { "nessa_whirlpool", 0xa770, 363, 0 },
+    { "nessa_whirlpool", 0x2ad8, 363, 2 },
+    { "nessa_whirlpool", 0xac48, 363, 0 },
+    { "nessa_whirlpool", 0xa068, 363, 0 },
+    { "nessa_whirlpool", 0xa100, 363, 0 },
+    { "nessa_whirlpool", 0xFF20, 363, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
