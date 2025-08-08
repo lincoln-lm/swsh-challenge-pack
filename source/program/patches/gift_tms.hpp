@@ -25,6 +25,16 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "hop_swift", 0x8af8, 367, 0 },
     { "hop_swift", 0x8b90, 367, 0 },
     { "hop_swift", 0xbd80, 367, 0 },
+
+    { "milo_magical_leaf", 0xb030, 337, 0 },
+    { "milo_magical_leaf", 0xb090, 337, 0 },
+    { "milo_magical_leaf", 0x2a00, 337, 2 },
+    { "milo_magical_leaf", 0xadd0, 337, 0 },
+    { "milo_magical_leaf", 0x2a50, 337, 2 },
+    { "milo_magical_leaf", 0xb2a8, 337, 0 },
+    { "milo_magical_leaf", 0xa6c8, 337, 0 },
+    { "milo_magical_leaf", 0xa760, 337, 0 },
+    { "milo_magical_leaf", 0x10b88, 337, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
