@@ -2,6 +2,8 @@
 
 ### Configurable IronMon-like challenge mods for Pok&eacute;mon Sword and Shield
 
+### WARNING: This mod is in an early state! Report any issues or feature requests [here.](https://github.com/lincoln-lm/swsh-challenge-pack/issues?q=is%3Aissue)
+
 ### v.1.3.2 (latest version) only !
 
 ## Features
