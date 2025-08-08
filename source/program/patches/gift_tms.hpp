@@ -44,7 +44,17 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "nessa_whirlpool", 0xac48, 363, 0 },
     { "nessa_whirlpool", 0xa068, 363, 0 },
     { "nessa_whirlpool", 0xa100, 363, 0 },
-    { "nessa_whirlpool", 0xFF20, 363, 0 },
+    { "nessa_whirlpool", 0xff20, 363, 0 },
+
+    { "kabu_will_o_wisp", 0x9be0, 365, 0 },
+    { "kabu_will_o_wisp", 0x9c40, 365, 0 },
+    { "kabu_will_o_wisp", 0x2358, 365, 2 },
+    { "kabu_will_o_wisp", 0x9980, 365, 0 },
+    { "kabu_will_o_wisp", 0x23a8, 365, 2 },
+    { "kabu_will_o_wisp", 0x9e58, 365, 0 },
+    { "kabu_will_o_wisp", 0x9278, 365, 0 },
+    { "kabu_will_o_wisp", 0x9310, 365, 0 },
+    { "kabu_will_o_wisp", 0xbb00, 365, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
