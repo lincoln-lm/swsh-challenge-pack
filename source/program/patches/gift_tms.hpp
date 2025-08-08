@@ -55,6 +55,16 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "kabu_will_o_wisp", 0x9278, 365, 0 },
     { "kabu_will_o_wisp", 0x9310, 365, 0 },
     { "kabu_will_o_wisp", 0xbb00, 365, 0 },
+
+    { "allister_hex", 0xa2e8, 404, 0 },
+    { "allister_hex", 0xa348, 404, 0 },
+    { "allister_hex", 0x25f8, 404, 2 },
+    { "allister_hex", 0xa088, 404, 0 },
+    { "allister_hex", 0x2648, 404, 2 },
+    { "allister_hex", 0xa560, 404, 0 },
+    { "allister_hex", 0x9980, 404, 0 },
+    { "allister_hex", 0x9a18, 404, 0 },
+    { "allister_hex", 0xeb20, 404, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
