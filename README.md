@@ -48,6 +48,13 @@
     - Things like starters and scripted encounters will match the species they are randomized to be
     - Optionally hide the starters (displays as Pikachu)
 
+## Save File
+The mod's save file (including configuration) is stored at sd:/switch/swsh_challenge_pack_save.toml.
+
+If you restart the game, this must be deleted to function as expected.
+
+It can also be viewed and manually tweaked in a text editor.
+
 ## Known Issues
 - Gift TM randomization is not yet implemented for all TMs
 - Matching model randomization is not yet implemented for all gifts/scripted encounters
