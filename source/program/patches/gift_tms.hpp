@@ -98,15 +98,15 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "screech", 0x8fb8, 343, 0 },
     { "screech", 0x9260, 343, 0 },
 
-    { "melony_icy_wind", 0xa2e8, 414, 0 },
-    { "melony_icy_wind", 0xa348, 414, 0 },
-    { "melony_icy_wind", 0x25f8, 414, 2 },
-    { "melony_icy_wind", 0xa088, 414, 0 },
-    { "melony_icy_wind", 0x2648, 414, 2 },
-    { "melony_icy_wind", 0xa560, 414, 0 },
-    { "melony_icy_wind", 0x9980, 414, 0 },
-    { "melony_icy_wind", 0x9a18, 414, 0 },
-    { "melony_icy_wind", 0xed38, 414, 0 },
+    { "melony_icy_wind", 0xa2e8, 354, 0 },
+    { "melony_icy_wind", 0xa348, 354, 0 },
+    { "melony_icy_wind", 0x25f8, 354, 2 },
+    { "melony_icy_wind", 0xa088, 354, 0 },
+    { "melony_icy_wind", 0x2648, 354, 2 },
+    { "melony_icy_wind", 0xa560, 354, 0 },
+    { "melony_icy_wind", 0x9980, 354, 0 },
+    { "melony_icy_wind", 0x9a18, 354, 0 },
+    { "melony_icy_wind", 0xed38, 354, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
