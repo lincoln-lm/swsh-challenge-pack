@@ -65,6 +65,16 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "allister_hex", 0x9980, 404, 0 },
     { "allister_hex", 0x9a18, 404, 0 },
     { "allister_hex", 0xeb20, 404, 0 },
+
+    { "opal_draining_kiss", 0xab98, 414, 0 },
+    { "opal_draining_kiss", 0xabf8, 414, 0 },
+    { "opal_draining_kiss", 0x2550, 414, 2 },
+    { "opal_draining_kiss", 0xa938, 414, 0 },
+    { "opal_draining_kiss", 0x25a0, 414, 2 },
+    { "opal_draining_kiss", 0xae10, 414, 0 },
+    { "opal_draining_kiss", 0xa230, 414, 0 },
+    { "opal_draining_kiss", 0xa2c8, 414, 0 },
+    { "opal_draining_kiss", 0xf830, 414, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
