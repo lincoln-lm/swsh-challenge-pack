@@ -21,7 +21,7 @@ HOOK_DEFINE_INLINE(RandomPokeData) {
                 continue;
             }
             if (save_file.trainer_rng.level_boost) {
-                trainer_team[i].level *= 1.5;
+                trainer_team[i].level *= 1.25;
             }
             if (!save_file.trainer_rng.enabled) {
                 continue;
