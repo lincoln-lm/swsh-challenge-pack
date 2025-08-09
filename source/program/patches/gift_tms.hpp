@@ -86,6 +86,17 @@ static std::vector<TM_SCRIPT_IDENTIFIER> TM_IDENTIFIERS = {
     { "fake_tears", 0x8f20, 374, 0 },
     { "fake_tears", 0x8fb8, 374, 0 },
     { "fake_tears", 0x9260, 374, 0 },
+
+    { "screech", 0x90a0, 343, 0 },
+    { "screech", 0x9680, 343, 0 },
+    { "screech", 0x96e0, 343, 0 },
+    { "screech", 0x1908, 343, 2 },
+    { "screech", 0x9420, 343, 0 },
+    { "screech", 0x1958, 343, 2 },
+    { "screech", 0x98f8, 343, 0 },
+    { "screech", 0x8f20, 343, 0 },
+    { "screech", 0x8fb8, 343, 0 },
+    { "screech", 0x9260, 343, 0 },
 };
 
 void replace_tm(AMX::AMX_INSTANCE* instance, u64* args) {
