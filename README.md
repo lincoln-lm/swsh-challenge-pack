@@ -18,9 +18,11 @@
     - Toggleable
 - Nuzlocke route restriction (no Pok&eacute;mon will spawn after one is caught or defeated on a route)
     - Toggleable
-- 1.25x level modifier for trainer & wild encounters
+- Level boost for trainer & wild encounters
     - Toggleable
-    - Optionally increase the capture level cap by 1.25x as well
+    - Gently increases throughout the game (1.2x gym 1 -> 1.5x gym 8)
+        - Specifically 0.02x<sup>2</sup>+0.5x+5
+    - Optionally increase the capture level cap by the same amount
 - Shop filter (shops will only sell Pok&eacute; balls)
     - Toggleable
 - Randomized evolutions

@@ -142,6 +142,10 @@ namespace Field {
     }
 }
 
+int level_boost(int level) {
+    return 0.02f * level * level + 0.5f * level + 5.0f;
+}
+
 constexpr std::array<u16, 100> VALID_TMS {
     1230,  328,  329,  330,  331,  332,  333,  334,  335,  336,
      337,  338,  339,  340,  341,  342,  343,  344,  345,  346,

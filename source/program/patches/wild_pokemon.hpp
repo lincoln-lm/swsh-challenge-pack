@@ -26,7 +26,9 @@ HOOK_DEFINE_INLINE(RandomizeGimmickSpec) {
         auto [species, form] = rng.RandSpeciesAndForm();
         gimmick_spec->species = species;
         gimmick_spec->form = form;
-        gimmick_spec->level *= 1.25;
+        if (save_file.wild_rng.level_boost) {
+            gimmick_spec->level = level_boost(gimmick_spec->level);
+        }
         gimmick_spec->ability = rng.RandMax(3);
         gimmick_spec->item = rng.RandHeldItem();
         std::array<s16, 4> moves;
@@ -48,8 +50,10 @@ HOOK_DEFINE_INLINE(RandomizeHiddenEncounterSlots) {
         const std::string seed = std::format("hidden_encounter_table_{}", area_hash);
         auto rng = RngManager::NewRandomGenerator(seed);
         for (int table = 0; table < 11; table++) {
-            encounter_tables[table].minimum_level *= 1.25;
-            encounter_tables[table].maximum_level *= 1.25;
+            if (save_file.wild_rng.level_boost) {
+                encounter_tables[table].minimum_level = level_boost(encounter_tables[table].minimum_level);
+                encounter_tables[table].maximum_level = level_boost(encounter_tables[table].maximum_level);
+            }
             for (int i = 0; i < 10; i++) {
                 auto slot = &(encounter_tables[table].encounter_slots[i]);
                 // if (slot->rate == 0) continue;
@@ -72,8 +76,8 @@ HOOK_DEFINE_INLINE(RandomizeSymbolEncounterSlots) {
         auto rng = RngManager::NewRandomGenerator(seed);
         for (int weather = 0; weather < 9; weather++) {
             if (save_file.wild_rng.level_boost) {
-                encounter_tables[weather].minimum_level *= 1.25;
-                encounter_tables[weather].maximum_level *= 1.25;
+                encounter_tables[weather].minimum_level = level_boost(encounter_tables[weather].minimum_level);
+                encounter_tables[weather].maximum_level = level_boost(encounter_tables[weather].maximum_level);
             }
             if (!save_file.wild_rng.enabled) {
                 continue;
@@ -96,8 +100,8 @@ HOOK_DEFINE_TRAMPOLINE(LiveRandomizeSlotSpawns) {
             auto rng = RngManager::NewRandomGenerator();
             auto [species, form] = rng.RandSpeciesAndForm();
             if (save_file.wild_rng.level_boost) {
-                minimum_level *= 1.25;
-                maximum_level *= 1.25;
+                minimum_level = level_boost(minimum_level);
+                maximum_level = level_boost(maximum_level);
             }
             encounter_slot->species = species;
             encounter_slot->form = form;
