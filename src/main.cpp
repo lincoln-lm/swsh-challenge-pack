@@ -2,7 +2,7 @@
 #include "hk/hook/Trampoline.h"
 #include "nvn/nvn_Cpp.h"
 #include "nvn/nvn_CppMethods.h" // IWYU pragma: keep
-#include "orion/graphics/FinalizeRenderer.h"
+#include "orion/graphics/FinalizeRenderer.hpp"
 
 static nvn::CommandBuffer* queued_command_buffer = nullptr;
 
