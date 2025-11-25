@@ -1,0 +1,8 @@
+@game:shield
+_ZN5orion5field10BaseObject7sVTableE = 0x2508468
+_ZN5orion5field11WorldObject7sVTableE = 0x250aa78
+_ZN5orion5field17ScaledWorldObject7sVTableE = 0x250aa78
+_ZN5orion5field11FieldObject7sVTableE = 0x254f888
+_ZN5orion5field13EncountObject7sVTableE = 0x255a940
+
+_ZN5orion5field13EncountObject11ConstructorEPS1_mmm = 0xd5da60
