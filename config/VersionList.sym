@@ -1,0 +1,5 @@
+@rtld = nnrtld
+@game = main.nss
+shield = A16802625E7826BF83B6F9708E475B912A9AB7DF
+@multimedia
+@sdk = nnSdk

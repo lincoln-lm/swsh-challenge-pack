@@ -1,0 +1,5 @@
+build
+venv
+.cache
+compile_commands.json
+lib/std

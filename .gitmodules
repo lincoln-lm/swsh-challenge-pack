@@ -1,0 +1,6 @@
+[submodule "sys"]
+	path = sys
+	url = https://github.com/fruityloops1/LibHakkun.git
+[submodule "lib/nnheaders"]
+	path = lib/nnheaders
+	url = https://github.com/open-ead/nnheaders.git
