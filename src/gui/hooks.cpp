@@ -1,15 +1,38 @@
 #include "gui/hooks.hpp"
 
 #include "hk/gfx/DebugRenderer.h"
+#include "hk/gfx/Font.h"
 #include "hk/hook/Trampoline.h"
 #include "nvn/nvn_Cpp.h"
 #include "nvn/nvn_CppMethods.h" // IWYU pragma: keep
 #include "orion/graphics/FinalizeRenderer.hpp"
+
+#include "embed_maple_mono_hkf.h"
+
 namespace gui {
     static nvn::CommandBuffer* queued_command_buffer = nullptr;
+    static hk::util::Storage<hk::gfx::Font> mapleMonoFont;
+    static u8 mapleMonoFontBuffer[0x8000] __attribute__((aligned(hk::cPageSize))) { 0 };
+    static bool mapleMonoFontInitialized = false;
+
+    void initializeFont() {
+        if (mapleMonoFontInitialized)
+            return;
+        auto renderer = hk::gfx::DebugRenderer::instance();
+        mapleMonoFont.create((void*)maple_mono_hkf, renderer->getDevice(), mapleMonoFontBuffer);
+        mapleMonoFontInitialized = true;
+        auto a = mapleMonoFont.get()->getGlyphSize();
+        hk::diag::log("DebugRenderer: NEW Font glyph size: %.2fx%.2f\n", a.x, a.y);
+                
+        renderer->setFont(mapleMonoFont.getUnsafe());
+    }
 
     static HkTrampoline<void, orion::graphics::FinalizeHolder*> finalizeDrawScreen = hk::hook::trampoline([](orion::graphics::FinalizeHolder* this_) -> void {
         finalizeDrawScreen.orig(this_);
+        if (!mapleMonoFontInitialized) {
+            // presumably the renderer is initialized at this point
+            initializeFont();
+        }
         auto renderer = hk::gfx::DebugRenderer::instance();
         // hijack the FinalizeRenderer's command buffer
         auto command_buffer = static_cast<nvn::CommandBuffer*>(
@@ -41,6 +64,7 @@ namespace gui {
         }
         nvnQueuePresentTextureTrampoline.orig(queue, window, texIndex);
     });
+
     void installHooks() {
         finalizeDrawScreen.installAtPtr(pun<void*>(&orion::graphics::FinalizeHolder::FinalizeDrawScreen));
         nvnQueuePresentTextureTrampoline.installAtPtr(nvnBootstrapLoader("nvnQueuePresentTexture"));
