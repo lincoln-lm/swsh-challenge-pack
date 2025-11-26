@@ -82,10 +82,12 @@ namespace gui::SettingsMenu {
                 } else {
                     renderer->setPrintColor(0xffffffff);
                 }
-                if (entry->indented) {
-                    renderer->printf("\t");
-                }
-                renderer->printf("%s: %s\n", entry->displayName, *entry ? "Enabled" : "Disabled");
+                renderer->printf(
+                    "%s%s: %s\r\n",
+                    entry->indented ? "\t" : "",
+                    entry->displayName,
+                    *entry ? "Enabled" : "Disabled"
+                );
             }
             lastNumEntries++;
             // new collapsed category

@@ -1,8 +1,11 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
+#include "nn/hid.h"
 #include "orion/movie/BSeqHandler.hpp"
 #include "orion/options/OptionsHolder.hpp"
+#include "orion/pawn/Pawn.hpp"
 #include "save/SaveFile.hpp"
+#include "gui/InputManager.hpp"
 
 inline HkTrampoline<void, orion::movie::BSeqHandler*, u64> skipBSeq = hk::hook::trampoline([](orion::movie::BSeqHandler* this_, u64 param_1) -> void {
     if (save::gSaveFile.qualityOfLife && save::gSaveFile.skipIntro) {
@@ -34,7 +37,15 @@ inline HkTrampoline<orion::options::TextSpeed, orion::options::OptionsHolder*> i
     return instantText.orig(this_);
 });
 
+inline HkTrampoline<orion::pawn::ucell, orion::pawn::AMX*> skipTextWait = hk::hook::trampoline([](orion::pawn::AMX* amx) -> orion::pawn::ucell {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isJustPressed(nn::hid::NpadButton::B)) {
+        return 1;
+    }
+    return skipTextWait.orig(amx);
+});
+
 inline void installQualityOfLifeHooks() {
     skipBSeq.installAtPtr(pun<void*>(&orion::movie::BSeqHandler::Deserialize));
     instantText.installAtPtr(pun<void*>(&orion::options::OptionsHolder::GetTextSpeed));
+    skipTextWait.installAtPtr(pun<void*>(&orion::pawn::ABKeyWait_));
 }
