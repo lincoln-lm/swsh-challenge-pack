@@ -48,7 +48,7 @@ namespace gui {
         renderer->clear();
         command_buffer->BeginRecording();
         renderer->begin(command_buffer);
-        gui::drawFrame(renderer);
+        gui::onFrame(renderer);
     });
 
     static HkTrampoline<void, nvn::Queue*, nvn::Window*, int> nvnQueuePresentTextureTrampoline = hk::hook::trampoline([](nvn::Queue* queue, nvn::Window* window, int texIndex) -> void {

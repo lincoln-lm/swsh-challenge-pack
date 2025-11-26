@@ -1,0 +1,10 @@
+#pragma once
+#include "nn/hid.h"
+
+namespace gui::InputManager {
+    void updateControllerState();
+    bool isPressed(nn::hid::NpadButton button);
+    bool isJustPressed(nn::hid::NpadButton button);
+    nn::hid::NpadBaseState* getCurrentState();
+    nn::hid::NpadBaseState* getLastState();
+}

@@ -1,17 +1,12 @@
 #include "gui/hooks.hpp"
+// #include "gui/SettingsMenu.hpp"
+#include "gui/InputManager.hpp"
 
 
-void gui::drawFrame(hk::gfx::DebugRenderer* renderer) {
-    renderer->setGlyphSize(1.0);
-
-    renderer->drawQuad(
-        { { 30, 30 }, { 0, 0 }, 0xef000000 },
-        { { 630, 30 }, { 1.0, 0 }, 0xef000000 },
-        { { 630, 186 }, { 1.0, 1.0 }, 0xef000000 },
-        { { 30, 186 }, { 0, 1.0 }, 0xef000000 });
-
-    renderer->setCursor({ 50, 50 });
-    renderer->printf("Hello World!\n");
+void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
+    InputManager::updateControllerState();
+    // SettingsMenu::inputHandling();
+    // SettingsMenu::draw(renderer);
 }
 
 
