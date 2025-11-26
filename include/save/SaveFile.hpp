@@ -1,6 +1,9 @@
 #pragma once
 
+#include "filesystem/FileHandler.hpp"
+#include "hk/diag/diag.h"
 #include "hk/types.h"
+#include <nlohmann_json.hpp>
 #include <array>
 #include <cstddef>
 
@@ -34,6 +37,44 @@ namespace save {
     extern SaveFile gSaveFile;
     inline auto getSaveFileFields() {
         return std::array{&gSaveFile.qualityOfLife, &gSaveFile.skipIntro};
+    }
+    inline std::string serialzeSaveFile() {
+        nlohmann::json json;
+        auto fields = getSaveFileFields();
+        for (auto field : fields) {
+            json[field->serialName] = field->value;
+        }
+        return json.dump(4);
+    }
+    constexpr const char* cSaveFilePath = "sd:/switch/swsh_challenge_pack_save.json";
+    inline void save() {
+        if (!filesystem::FileHandler::MountSD()) { 
+            hk::diag::log("Failed to mount SD");
+            return;
+        }
+        if (!filesystem::FileHandler::WriteFile(cSaveFilePath, serialzeSaveFile())) {
+            hk::diag::log("Failed to write save file");
+            return;
+        }
+    }
+    inline void deserializeSaveFile(std::string data) {
+        nlohmann::json json = nlohmann::json::parse(data);
+        auto fields = getSaveFileFields();
+        for (auto field : fields) {
+            field->value = json[field->serialName];
+        }
+    }
+    inline void load() {
+        if (!filesystem::FileHandler::MountSD()) { 
+            hk::diag::log("Failed to mount SD");
+            return;
+        }
+        std::string data;
+        if (!filesystem::FileHandler::ReadFile(cSaveFilePath, data)) {
+            hk::diag::log("Failed to read save file");
+            return;
+        }
+        deserializeSaveFile(data);
     }
 }
 

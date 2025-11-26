@@ -16,7 +16,7 @@ include(sys/cmake/bin2s.cmake)
 embed_file(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/data/maple_mono.hkf maple_mono_hkf 0x1000 TRUE)
 include_directories(include)
 include_directories(lib/nnheaders/include)
-include_directories(lib/imgui)
+include_directories(lib/nlohmann)
 
 include(sys/cmake/module.cmake)
 include(sys/cmake/deploy.cmake)

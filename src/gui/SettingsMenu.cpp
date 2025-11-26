@@ -41,6 +41,7 @@ namespace gui::SettingsMenu {
         if (InputManager::isJustPressed(nn::hid::NpadButton::A)) {
             if (selectedIndex == cConfirmIndex) {
                 isOpen = false;
+                save::save();
                 return;
             }
             auto entries = save::getSaveFileFields();

@@ -1,8 +1,10 @@
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/InputManager.hpp"
+#include "hk/hook/Trampoline.h"
+#include "orion/field/FieldManager.hpp"
 #include "quality_of_life.hpp"
-
+#include "save/SaveFile.hpp"
 
 void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     InputManager::updateControllerState();
@@ -16,8 +18,14 @@ void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     SettingsMenu::draw(renderer);
 }
 
+HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
+    save::load();
+    return onGameInit.orig(this_, param_1, param_2, param_3);
+});
+
 extern "C" void hkMain()
 {
+    onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
     installQualityOfLifeHooks();
     gui::installHooks();
 }
