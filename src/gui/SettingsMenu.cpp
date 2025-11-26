@@ -1,13 +1,22 @@
 #include "gui/SettingsMenu.hpp"
+#include "gui/ExtendedRenderer.hpp"
 #include "gui/InputManager.hpp"
 #include "hk/util/Math.h"
 #include "nn/hid.h"
 #include "save/SaveFile.hpp"
 #include <array>
 namespace gui::SettingsMenu {
+    constexpr static size cGlyphHeight = 32;
+    constexpr static size cGlyphWidth = 16;
     constexpr static size cRowCount = 8;
-    constexpr static size cWidth = 800;
-    constexpr static size cHeight = 20 + cRowCount * 32 + 20;
+    constexpr static size cLineLength = 48;
+    constexpr static size cMargin = 30;
+    constexpr static size cPadding = 20;
+    constexpr static size cWidth = cPadding + cLineLength * cGlyphWidth + cPadding;
+    constexpr static size cHeight = cPadding + cRowCount * cGlyphHeight + cPadding;
+    constexpr static u32 cTextColor = 0xffffffff;
+    constexpr static u32 cSelectedTextColor = 0xffffd700;
+    constexpr static u32 cWindowColor = 0xef000000;
     // TODO
     constexpr static size cMaxEntries = 0x20;
     constexpr static size cConfirmIndex = 0;
@@ -54,23 +63,25 @@ namespace gui::SettingsMenu {
     }
     void draw(hk::gfx::DebugRenderer* renderer)
     {
+        ExtendedRenderer ext_renderer(renderer);
         renderer->setGlyphSize(1.0);
-        renderer->drawQuad(
-            { { 30, 30 }, { 0, 0 }, 0xef000000 },
-            { { 30 + cWidth, 30 }, { 1.0, 0 }, 0xef000000 },
-            { { 30 + cWidth, 30 + cHeight }, { 1.0, 1.0 }, 0xef000000 },
-            { { 30, 30 + cHeight }, { 0, 1.0 }, 0xef000000 });
-        renderer->setCursor({ 50, 50 });
+
+        // main window
+
+        ext_renderer.drawRect(cMargin, cMargin, cWidth, cHeight, cWindowColor, 25.0f);
+        renderer->setCursor({ cMargin + cPadding, cMargin + cPadding });
 
         auto entries = save::getSaveFileFields();
 
         lastNumEntries = 0;
-        if (selectedIndex == lastNumEntries) {
-            renderer->setPrintColor(0xffffd700);
-        } else {
-            renderer->setPrintColor(0xffffffff);
+        if (scrollOffset == 0) {
+            if (selectedIndex == lastNumEntries) {
+                renderer->setPrintColor(cSelectedTextColor);
+            } else {
+                renderer->setPrintColor(cTextColor);
+            }
+            renderer->printf("Confirm\n");
         }
-        renderer->printf("Confirm\n");
         lastNumEntries++;
 
         for (size i = 0; i < entries.size(); i++) {
@@ -78,9 +89,9 @@ namespace gui::SettingsMenu {
             indexLookup[lastNumEntries] = i;
             if (scrollOffset <= lastNumEntries && lastNumEntries < scrollOffset + cRowCount) {
                 if (lastNumEntries == selectedIndex) {
-                    renderer->setPrintColor(0xffffd700);
+                    renderer->setPrintColor(cSelectedTextColor);
                 } else {
-                    renderer->setPrintColor(0xffffffff);
+                    renderer->setPrintColor(cTextColor);
                 }
                 renderer->printf(
                     "%s%s: %s\r\n",
@@ -97,15 +108,29 @@ namespace gui::SettingsMenu {
             }
         }
 
+        constexpr size scroll_indicator_x = cMargin + cWidth - cPadding - cGlyphWidth;
+        constexpr size scroll_indicator_y_top = cMargin + cPadding;
+        constexpr size scroll_indicator_y_bottom = cMargin + cHeight - cPadding - cGlyphHeight;
         if (scrollOffset > 0) {
-            renderer->setCursor({ 30 + cWidth - 30, 50 });
-            renderer->setPrintColor(0xffffffff);
+            renderer->setCursor({ scroll_indicator_x,  scroll_indicator_y_top});
+            renderer->setPrintColor(cTextColor);
             renderer->printf("^\n");
         }
         if (scrollOffset + cRowCount < lastNumEntries) {
-            renderer->setCursor({ 30 + cWidth - 30, 30 + cHeight - 32 - 20});
-            renderer->setPrintColor(0xffffffff);
+            renderer->setCursor({ scroll_indicator_x, scroll_indicator_y_bottom});
+            renderer->setPrintColor(cTextColor);
             renderer->printf("v\n");
+        }
+
+        // description window
+
+        ext_renderer.drawRect(cMargin, cMargin + cMargin + cHeight, cWidth, cHeight, cWindowColor, 25.0f);
+        renderer->setCursor({ cMargin + cPadding, cMargin + cMargin + cPadding + cHeight });
+        renderer->setPrintColor(cTextColor);
+        if (selectedIndex == cConfirmIndex) {
+            ext_renderer.printWrap<cLineLength>("Confirm and save settings");
+        } else {
+            ext_renderer.printWrap<cLineLength>(entries[indexLookup[selectedIndex]]->description);
         }
     }
 }
