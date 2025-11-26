@@ -25,6 +25,7 @@ HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void
 
 extern "C" void hkMain()
 {
+    // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
     installQualityOfLifeHooks();
     gui::installHooks();

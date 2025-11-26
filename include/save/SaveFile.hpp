@@ -33,10 +33,15 @@ namespace save {
     struct SaveFile {
         SETTING(BooleanSetting, qualityOfLife, "Quality of Life", true, false);
         SETTING(BooleanSetting, skipIntro, "Skip Intro", true, true);
+        SETTING(BooleanSetting, instantText, "Instant Text", true, true);
     };
     extern SaveFile gSaveFile;
     inline auto getSaveFileFields() {
-        return std::array{&gSaveFile.qualityOfLife, &gSaveFile.skipIntro};
+        return std::array{
+            &gSaveFile.qualityOfLife,
+            &gSaveFile.skipIntro,
+            &gSaveFile.instantText
+        };
     }
     inline std::string serialzeSaveFile() {
         nlohmann::json json;
@@ -61,6 +66,9 @@ namespace save {
         nlohmann::json json = nlohmann::json::parse(data);
         auto fields = getSaveFileFields();
         for (auto field : fields) {
+            if (!json.contains(field->serialName)) {
+                continue;
+            }
             field->value = json[field->serialName];
         }
     }
