@@ -93,11 +93,11 @@ namespace gui::SettingsMenu {
                 } else {
                     renderer->setPrintColor(cTextColor);
                 }
+                hk::diag::log(entry->toString().c_str());
                 renderer->printf(
-                    "%s%s: %s\r\n",
+                    "%s%s\r\n",
                     entry->indented ? "\t" : "",
-                    entry->displayName,
-                    *entry ? "Enabled" : "Disabled"
+                    entry->toString().c_str()
                 );
             }
             lastNumEntries++;

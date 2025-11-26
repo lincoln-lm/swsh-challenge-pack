@@ -1,10 +1,20 @@
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/InputManager.hpp"
+#include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
 #include "orion/field/FieldManager.hpp"
 #include "quality_of_life.hpp"
 #include "save/SaveFile.hpp"
+
+extern "C" {
+    void* __libc_malloc(std::size_t size) {
+        return hk::mem::sMainHeap.allocate(size);
+    }
+    void __libc_free(void* ptr) {
+        hk::mem::sMainHeap.free(ptr);
+    }
+}
 
 void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     InputManager::updateControllerState();

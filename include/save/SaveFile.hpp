@@ -3,6 +3,8 @@
 #include "filesystem/FileHandler.hpp"
 #include "hk/diag/diag.h"
 #include "hk/types.h"
+#include "hk/util/Random.h"
+#include <format>
 #include <nlohmann_json.hpp>
 #include <array>
 #include <cstddef>
@@ -19,14 +21,28 @@ namespace save {
         void operator=(u64 value) { this->value = value; }
         virtual void cycleForward();
         virtual void cycleBackward();
+        virtual std::string toString() const;
         Setting(const char* serialName, const char* displayName, const char* description, u64 value, bool indented = false) : serialName(serialName), displayName(displayName), description(description), value(value), indented(indented) {}
     };
     struct BooleanSetting : public Setting {
         void cycleBackward() override { value = !value; }
         void cycleForward() override { value = !value; }
+        std::string toString() const override { 
+            return std::format("{}: {}", displayName, value ? "Enabled" : "Disabled");
+        }
         operator bool() const { return value; }
         void operator=(bool value) { this->value = value; }
         BooleanSetting(const char* serialName, const char* displayName, const char* description, bool value, bool indented = false) : Setting(serialName, displayName, description, value, indented) {}
+    };
+    struct IntegerSetting : public Setting {
+        void cycleBackward() override { value--; }
+        void cycleForward() override { value++; }
+        std::string toString() const override {
+            return std::format("{}: {}", displayName, value);
+        }
+        operator u64() const { return value; }
+        void operator=(u64 value) { this->value = value; }
+        IntegerSetting(const char* serialName, const char* displayName, const char* description, u64 value, bool indented = false) : Setting(serialName, displayName, description, value, indented) {}
     };
 
     #define SETTING(type, var, displayName, description, value, indented) type var{#var, displayName, description, value, indented}
@@ -35,14 +51,19 @@ namespace save {
         SETTING(BooleanSetting, qualityOfLife, "Quality of Life", "Enables the quality of life features category.", true, false);
         SETTING(BooleanSetting, skipIntro, "Skip Intro", "Skips the intro cutscene with Rose (and any other \"sequences\").", true, true);
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true);
+        SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
+        SaveFile() {
+            rngSeed = hk::util::getRandomU64();
+        }
     };
     extern SaveFile gSaveFile;
     inline auto getSaveFileFields() {
-        return std::array{
+        return std::to_array<Setting*>({
             &gSaveFile.qualityOfLife,
             &gSaveFile.skipIntro,
             &gSaveFile.instantText,
-        };
+            &gSaveFile.rngSeed
+        });
     }
     inline std::string serialzeSaveFile() {
         nlohmann::json json;
@@ -53,17 +74,19 @@ namespace save {
         return json.dump(4);
     }
     constexpr const char* cSaveFilePath = "sd:/switch/swsh_challenge_pack_save.json";
-    inline void save() {
+    inline bool save() {
         if (!filesystem::FileHandler::MountSD()) { 
             hk::diag::log("Failed to mount SD");
-            return;
+            return false;
         }
         if (!filesystem::FileHandler::WriteFile(cSaveFilePath, serialzeSaveFile())) {
             hk::diag::log("Failed to write save file");
-            return;
+            return false;
         }
+        return true;
     }
     inline void deserializeSaveFile(std::string data) {
+        // TODO: exception handling?
         nlohmann::json json = nlohmann::json::parse(data);
         auto fields = getSaveFileFields();
         for (auto field : fields) {
@@ -73,17 +96,18 @@ namespace save {
             field->value = json[field->serialName];
         }
     }
-    inline void load() {
+    inline bool load() {
         if (!filesystem::FileHandler::MountSD()) { 
             hk::diag::log("Failed to mount SD");
-            return;
+            return false;
         }
         std::string data;
         if (!filesystem::FileHandler::ReadFile(cSaveFilePath, data)) {
             hk::diag::log("Failed to read save file");
-            return;
+            return false;
         }
         deserializeSaveFile(data);
+        return true;
     }
 }
 
