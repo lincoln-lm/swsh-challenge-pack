@@ -6,6 +6,12 @@
 
 void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     InputManager::updateControllerState();
+    // TODO: better logic where locking/unlocking isnt done every frame
+    if (!SettingsMenu::getIsOpen()) {
+        InputManager::unlockInput();
+        return;
+    }
+    InputManager::lockInput();
     SettingsMenu::inputHandling();
     SettingsMenu::draw(renderer);
 }

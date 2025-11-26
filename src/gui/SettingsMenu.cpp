@@ -10,13 +10,19 @@ namespace gui::SettingsMenu {
     constexpr static size cHeight = 20 + cRowCount * 32 + 20;
     // TODO
     constexpr static size cMaxEntries = 0x20;
+    constexpr static size cConfirmIndex = 0;
+    bool isOpen = true;
     size indexLookup[cMaxEntries] = {0 };
     size selectedIndex = 0;
     size scrollOffset = 0;
     size lastNumEntries = 0;
 
+    bool getIsOpen() {
+        return isOpen;
+    }
+
     void inputHandling() {
-        if (InputManager::isJustPressed(nn::hid::NpadButton::Up)) {
+        if (InputManager::isJustPressed(nn::hid::NpadButton::Up) || InputManager::isJustPressed(nn::hid::NpadButton::StickLUp)) {
             if (selectedIndex > 0) {
                 selectedIndex--;
                 if (selectedIndex < scrollOffset) {
@@ -24,7 +30,7 @@ namespace gui::SettingsMenu {
                 }
             }
         }
-        if (InputManager::isJustPressed(nn::hid::NpadButton::Down)) {
+        if (InputManager::isJustPressed(nn::hid::NpadButton::Down) || InputManager::isJustPressed(nn::hid::NpadButton::StickLDown)) {
             if (selectedIndex + 1 < lastNumEntries) {
                 selectedIndex++;
                 if (selectedIndex >= scrollOffset + cRowCount) {
@@ -33,9 +39,16 @@ namespace gui::SettingsMenu {
             }
         }
         if (InputManager::isJustPressed(nn::hid::NpadButton::A)) {
+            if (selectedIndex == cConfirmIndex) {
+                isOpen = false;
+                return;
+            }
             auto entries = save::getSaveFileFields();
             size target = indexLookup[selectedIndex];
             entries[target]->cycleForward();
+        }
+        if (InputManager::isJustPressed(nn::hid::NpadButton::B)) {
+            scrollOffset = 0;
         }
     }
     void draw(hk::gfx::DebugRenderer* renderer)
@@ -51,13 +64,19 @@ namespace gui::SettingsMenu {
         auto entries = save::getSaveFileFields();
 
         lastNumEntries = 0;
+        if (selectedIndex == lastNumEntries) {
+            renderer->setPrintColor(0xffffd700);
+        } else {
+            renderer->setPrintColor(0xffffffff);
+        }
+        renderer->printf("Confirm\n");
+        lastNumEntries++;
 
         for (size i = 0; i < entries.size(); i++) {
             auto entry = entries[i];
             indexLookup[lastNumEntries] = i;
-            lastNumEntries++;
             if (scrollOffset <= lastNumEntries && lastNumEntries < scrollOffset + cRowCount) {
-                if (i == selectedIndex) {
+                if (lastNumEntries == selectedIndex) {
                     renderer->setPrintColor(0xffffd700);
                 } else {
                     renderer->setPrintColor(0xffffffff);
@@ -67,6 +86,7 @@ namespace gui::SettingsMenu {
                 }
                 renderer->printf("%s: %s\n", entry->displayName, *entry ? "Enabled" : "Disabled");
             }
+            lastNumEntries++;
             // new collapsed category
             if (!entry->indented && !*entry) {
                 // skip over indented entries

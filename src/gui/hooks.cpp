@@ -1,4 +1,5 @@
 #include "gui/hooks.hpp"
+#include "gui/InputManager.hpp"
 
 #include "hk/gfx/DebugRenderer.h"
 #include "hk/gfx/Font.h"
@@ -68,6 +69,7 @@ namespace gui {
     void installHooks() {
         finalizeDrawScreen.installAtPtr(pun<void*>(&orion::graphics::FinalizeHolder::FinalizeDrawScreen));
         nvnQueuePresentTextureTrampoline.installAtPtr(nvnBootstrapLoader("nvnQueuePresentTexture"));
+        InputManager::installInputHooks();
         hk::gfx::DebugRenderer::instance()->installHooks();
     }
 }

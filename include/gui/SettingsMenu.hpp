@@ -5,5 +5,6 @@ namespace gui {
     namespace SettingsMenu {
         void inputHandling();
         void draw(hk::gfx::DebugRenderer* renderer);
+        bool getIsOpen();
     };
 }
