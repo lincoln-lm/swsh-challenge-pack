@@ -1,0 +1,29 @@
+#pragma once
+#include "hk/hook/Trampoline.h"
+#include "orion/movie/BSeqHandler.hpp"
+#include "save/SaveFile.hpp"
+
+inline HkTrampoline<void, orion::movie::BSeqHandler*, u64> skipBSeq = hk::hook::trampoline([](orion::movie::BSeqHandler* this_, u64 param_1) -> void {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.skipIntro) {
+        if (auto gf_file = this_->gfFile; gf_file != nullptr) {
+            const char* file_path = gf_file->filePath;
+            if (
+                // skipping the title screen breaks things
+                strcmp(file_path, "bin/demo/sequence/sd9010_title.bseq")
+                // skipping evolutions break things
+                && strstr(file_path, "evolution") == nullptr
+            ) {
+                auto bseq_header = this_->bSeqHeader;
+
+                bseq_header->frameCount = 0;
+                bseq_header->groupOptionCount = 0;
+                bseq_header->hashSizeCount = 0;
+            }
+        }
+    }
+    skipBSeq.orig(this_, param_1);
+});
+
+inline void installQualityOfLifeHooks() {
+    skipBSeq.installAtPtr(pun<void*>(&orion::movie::BSeqHandler::Deserialize));
+}
