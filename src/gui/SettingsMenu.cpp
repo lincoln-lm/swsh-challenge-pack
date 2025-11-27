@@ -80,7 +80,7 @@ namespace gui::SettingsMenu {
             } else {
                 renderer->setPrintColor(cTextColor);
             }
-            renderer->printf("Confirm\n");
+            renderer->printf("Confirm Settings\n");
         }
         lastNumEntries++;
 
