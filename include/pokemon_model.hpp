@@ -89,13 +89,16 @@ inline auto randomizePokemonModelsOnLoad = hook::inlineHook([](hook::CpuState* s
     state->X[8] = *form_ptr;
 });
 
+inline static bool sIsConstructingEncountObject = false;
 inline auto randomizePokemonModels = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[8] = *pun<s32*>(state->X[20]);
     if (!save::gSaveFile.randomizePokemonModels) {
         return;
     }
-    // TODO: is encount object
+    if (sIsConstructingEncountObject) {
+        return;
+    }
     auto pokemon_model = pun<orion::field::PokemonModel*>(state->X[19]);
     u64 hash = pokemon_model->uniqueHash;
     s32* species_ptr = &pokemon_model->species;
@@ -113,7 +116,14 @@ inline HkTrampoline<void, orion::field::FileCache*, orion::field::FileCache::Cac
     return patchNullPtrDeref.orig(this_, stack_struct, category);
 });
 
+inline HkTrampoline<void, orion::field::EncountObject*, u64, u64, u64> logEncountObjectConstructor = hk::hook::trampoline([](orion::field::EncountObject* obj, u64 param_1, u64 param_2, u64 param_3) {
+    sIsConstructingEncountObject = true;
+    logEncountObjectConstructor.orig(obj, param_1, param_2, param_3);
+    sIsConstructingEncountObject = false;
+});
+
 inline void installPokemonModelHooks() {
+    logEncountObjectConstructor.installAtPtr(pun<void*>(&orion::field::EncountObject::Constructor));
     patchNullPtrDeref.installAtPtr(pun<void*>(&orion::field::FileCache::CacheFile));
     randomizePokemonModelsOnLoad.installAtPtrOffset(pun<ptr>(&orion::field::AreaLoader::InitializeAreaCaches), 0x16a8);
     randomizePokemonModels.installAtPtrOffset(pun<ptr>(&orion::field::PokemonModel::Constructor), 0xc4);
