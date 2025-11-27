@@ -93,7 +93,6 @@ namespace gui::SettingsMenu {
                 } else {
                     renderer->setPrintColor(cTextColor);
                 }
-                hk::diag::log(entry->toString().c_str());
                 renderer->printf(
                     "%s%s\r\n",
                     entry->indented ? "\t" : "",

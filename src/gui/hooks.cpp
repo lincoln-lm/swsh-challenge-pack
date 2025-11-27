@@ -22,8 +22,6 @@ namespace gui {
         auto renderer = hk::gfx::DebugRenderer::instance();
         mapleMonoFont.create((void*)maple_mono_hkf, renderer->getDevice(), mapleMonoFontBuffer);
         mapleMonoFontInitialized = true;
-        auto a = mapleMonoFont.get()->getGlyphSize();
-        hk::diag::log("DebugRenderer: NEW Font glyph size: %.2fx%.2f\n", a.x, a.y);
                 
         renderer->setFont(mapleMonoFont.getUnsafe());
     }
