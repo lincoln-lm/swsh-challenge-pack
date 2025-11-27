@@ -7,6 +7,8 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/../../lib/flatbuffers flatbuffers_build)
 set(FLATC_FLAGS --gen-mutable --reflect-names --reflect-types --filename-suffix _flatbuffer)
 file(GLOB_RECURSE ALL_SCHEMAS ${PROJECT_SOURCE_DIR}/schemas/*.fbs)
 
+add_custom_target(orion_headers ALL)
+
 foreach(SCHEMA ${ALL_SCHEMAS})
     get_filename_component(FOLDER ${SCHEMA} DIRECTORY)
     file(RELATIVE_PATH REL_FOLDER ${PROJECT_SOURCE_DIR}/schemas/ ${FOLDER})
@@ -28,8 +30,10 @@ foreach(SCHEMA ${ALL_SCHEMAS})
         DEPENDS orion_${REL_FOLDER_SANITIZED}
         COMMENT "Copying FlatBuffers header ${SCHEMA_NAME_WE}_flatbuffer.h"
     )
+    add_dependencies(orion_headers orion_${REL_FOLDER_SANITIZED})
 
     list(APPEND ALL_COPIED_HEADERS ${HEADER_DST})
 endforeach()
 
-add_custom_target(orion_headers ALL DEPENDS ${ALL_COPIED_HEADERS})
+add_custom_target(orion_copied_headers ALL DEPENDS ${ALL_COPIED_HEADERS})
+add_dependencies(orion_headers orion_copied_headers)
