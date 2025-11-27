@@ -121,7 +121,18 @@ namespace field {
         u8 unk8[0x17E];
     };
     static_assert(sizeof(FieldObject) == 0x398);
-    struct EncountObject : FieldObject {
+    struct PokemonModel : public FieldObject {
+        static void* sVTable[];
+        static void Constructor(PokemonModel* obj, u64 p1, u64 p2, u64 p3);
+        // ...
+        u8 unk9[0x5cc - 0x398];
+        s32 species;
+        s32 form;
+        // ...
+    };
+    static_assert(offsetof(PokemonModel, species) == 0x5cc);
+    static_assert(offsetof(PokemonModel, form) == 0x5cc + 4);
+    struct EncountObject : PokemonModel {
         static void* sVTable[];
         static void Constructor(EncountObject* obj, u64 p1, u64 p2, u64 p3);
         // ...

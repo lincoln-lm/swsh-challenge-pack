@@ -4,6 +4,7 @@
 #include "hk/util/Random.h"
 #include "hk/util/hash.h"
 #include "save/SaveFile.hpp"
+#include "util/Personal.hpp"
 #include <bit>
 #include <random>
 #include <span>
@@ -36,17 +37,16 @@ class MersenneTwister : public std::mt19937_64 {
         bool RandChance(u64 denominator) {
             return this->RandMax(denominator) == 0;
         }
-        // std::tuple<u32, u16> RandSpeciesAndForm() {
-        //     u32 species;
-        //     u16 form;
-        //     do {
-        //         species = this->RandRange(1, 899);
-        //         PersonalInfo::FetchInfo(species, 0);
-        //         u32 form_count = PersonalInfo::GetField(PersonalInfo::InfoField::FORM_COUNT);
-        //         form = this->RandMax(form_count);
-        //     } while (!PersonalInfo::isInGame(species, form));
-        //     return {species, form};
-        // }
+        std::tuple<u32, u16> RandSpeciesAndForm() {
+            u32 species;
+            u16 form;
+            do {
+                species = this->RandRange(1, 899);
+                u32 form_count = util::getPersonalInfoField(species, 0, orion::personal::InfoField::FORM_COUNT);
+                form = this->RandMax(form_count);
+            } while (!util::isInGame(species, form));
+            return {species, form};
+        }
         // s16 RandValidMoveId() {
         //     s16 move_id;
         //     do {
@@ -83,12 +83,13 @@ class MersenneTwister : public std::mt19937_64 {
 namespace RngManager {
     template<typename T, size_t Size>
     inline MersenneTwister NewRandomGenerator(std::span<const T, Size> input) {
+        const u8* input_bytes = pun<u8*>(input.data());
         // TODO: this is probably dumb
         auto rng = std::mt19937_64 { save::gSaveFile.rngSeed };
         u64 high = rng() & 0xFFFFFFFF;
         u64 low = rng() & 0xFFFFFFFF;
-        high = hk::util::hashMurmurT(input, high);
-        low = hk::util::hashMurmurT(input, low);
+        high = hk::util::hashMurmur(input_bytes, Size, high);
+        low = hk::util::hashMurmur(input_bytes, Size, low);
         return MersenneTwister(low | (high << 32));
     }
     inline MersenneTwister NewRandomGenerator(const std::string input) {

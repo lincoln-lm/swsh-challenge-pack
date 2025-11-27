@@ -4,6 +4,7 @@
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
 #include "orion/field/FieldManager.hpp"
+#include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
 #include "save/SaveFile.hpp"
 
@@ -38,5 +39,6 @@ extern "C" void hkMain()
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
     installQualityOfLifeHooks();
+    installPokemonModelHooks();
     gui::installHooks();
 }
