@@ -21,6 +21,8 @@ namespace hook {
         private:
         __attribute__((naked))
         static void hook() {
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Winline-asm"
             asm volatile(
                 "sub sp, sp, #(31*8 + 8)\n"
 
@@ -79,6 +81,7 @@ namespace hook {
                 "add sp, sp, #(31*8 + 8)\n"
                 "ret\n"
             );
+            #pragma clang diagnostic pop
         }
     };
     template <typename Fn>
