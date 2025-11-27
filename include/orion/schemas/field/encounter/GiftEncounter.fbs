@@ -1,4 +1,4 @@
-namespace orion.gift.flatbuffers;
+namespace orion.field.encounter.flatbuffers;
 table GiftEncounter {
     is_egg: int;
     form: ubyte;

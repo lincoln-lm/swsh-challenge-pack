@@ -1,12 +1,12 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
 #include "hk/types.h"
-#include "orion/gift/GiftEncounterManager.hpp"
-#include "orion/gift/GiftEncounter_flatbuffer.h"
+#include "orion/field/encounter/GiftEncounterManager.hpp"
+#include "orion/field/encounter/GiftEncounter_flatbuffer.h"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
 
-inline HkTrampoline<orion::gift::flatbuffers::GiftEncounter*, orion::gift::GiftEncounterManager*, u64*> randomizeGiftEncounters = hk::hook::trampoline([](orion::gift::GiftEncounterManager* this_, u64* hash_ptr) {
+inline HkTrampoline<orion::field::encounter::flatbuffers::GiftEncounter*, orion::field::encounter::GiftEncounterManager*, u64*> randomizeGiftEncounters = hk::hook::trampoline([](orion::field::encounter::GiftEncounterManager* this_, u64* hash_ptr) {
     auto original_encounter = randomizeGiftEncounters.orig(this_, hash_ptr);
     if (!save::gSaveFile.randomizeGiftEncounters) {
         return original_encounter;
@@ -35,5 +35,5 @@ inline HkTrampoline<orion::gift::flatbuffers::GiftEncounter*, orion::gift::GiftE
 });
 
 inline void installGiftEncountersHooks() {
-    randomizeGiftEncounters.installAtPtr(pun<void*>(&orion::gift::GiftEncounterManager::GetGift));
+    randomizeGiftEncounters.installAtPtr(pun<void*>(&orion::field::encounter::GiftEncounterManager::GetGift));
 }
