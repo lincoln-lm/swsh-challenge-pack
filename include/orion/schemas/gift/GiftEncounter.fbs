@@ -1,5 +1,5 @@
-namespace orion.gift;
-table EncounterGift {
+namespace orion.gift.flatbuffers;
+table GiftEncounter {
     is_egg: int;
     form: ubyte;
     dynamax_level: ubyte;
@@ -30,4 +30,4 @@ table EncounterGift {
     special_move: int;
 }
 
-root_type EncounterGift;
+root_type GiftEncounter;

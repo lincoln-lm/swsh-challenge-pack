@@ -51,7 +51,8 @@ namespace save {
         SETTING(BooleanSetting, qualityOfLife, "Quality of Life", "Enables the quality of life features category. (has subsettings)", true, false);
         SETTING(BooleanSetting, skipIntro, "Skip Intro", "Skips the intro cutscene with Rose (and any other \"sequences\").", true, true);
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true);
-        SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the recieved pokemon if applicable). (has subsettings)", true, false);
+        SETTING(BooleanSetting, randomizeGiftEncounters, "Randomize Gifts", "Randomize the species, form, ability, etc. of gift pokemon. Additionally removes their shiny locks.", true, false);
+        SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
         SETTING(BooleanSetting, hideStarters, "Hide Starters", "Displays starters as pikachu so you won't know what they are randomized to.", false, true);
 
         SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
@@ -65,6 +66,7 @@ namespace save {
             &gSaveFile.qualityOfLife,
             &gSaveFile.skipIntro,
             &gSaveFile.instantText,
+            &gSaveFile.randomizeGiftEncounters,
             &gSaveFile.randomizePokemonModels,
             &gSaveFile.hideStarters,
             &gSaveFile.rngSeed,

@@ -3,7 +3,9 @@
 #include "hk/types.h"
 #include "hk/util/Random.h"
 #include "hk/util/hash.h"
+#include "orion/battle/Move.hpp"
 #include "save/SaveFile.hpp"
+#include "util/Data.hpp"
 #include "util/Personal.hpp"
 #include <bit>
 #include <random>
@@ -47,31 +49,31 @@ class MersenneTwister : public std::mt19937_64 {
             } while (!util::isInGame(species, form));
             return {species, form};
         }
-        // s16 RandValidMoveId() {
-        //     s16 move_id;
-        //     do {
-        //         move_id = static_cast<s16>(this->RandRange(1, 820));
-        //     } while (!MoveIdHolder{0, move_id}.IsMoveUsable());
-        //     return move_id;
-        // }
-        // void RandMoves(std::span<s16, 4> moves) {
-        //     for (size_t i = 0; i < moves.size(); ++i) {
-        //         do {
-        //             moves[i] = this->RandValidMoveId();
-        //         } while (std::find(moves.begin(), moves.begin() + i, moves[i]) != moves.begin() + i);
-        //     }
-        // }
-        // std::array<s16, 4> RandMoves() {
-        //     std::array<s16, 4> moves;
-        //     this->RandMoves(moves);
-        //     return moves;
-        // }
-        // u16 RandHeldItem() {
-        //     return this->RandElement(std::span(VALID_HELD_ITEMS));
-        // }
-        // u16 RandTM() {
-        //     return this->RandElement(std::span(VALID_TMS));
-        // }
+        s16 RandValidMoveId() {
+            s16 move_id;
+            do {
+                move_id = static_cast<s16>(this->RandRange(1, 820));
+            } while (!orion::battle::Move{0, (u32)move_id}.isUsable());
+            return move_id;
+        }
+        void RandMoves(std::span<s16, 4> moves) {
+            for (size_t i = 0; i < moves.size(); ++i) {
+                do {
+                    moves[i] = this->RandValidMoveId();
+                } while (std::find(moves.begin(), moves.begin() + i, moves[i]) != moves.begin() + i);
+            }
+        }
+        std::array<s16, 4> RandMoves() {
+            std::array<s16, 4> moves;
+            this->RandMoves(moves);
+            return moves;
+        }
+        u16 RandHeldItem() {
+            return this->RandElement(std::span(util::data::VALID_HELD_ITEMS));
+        }
+        u16 RandTM() {
+            return this->RandElement(std::span(util::data::VALID_TMS));
+        }
         u16 RandAbility() {
             return this->RandRange(1, 268);
         }
@@ -88,8 +90,8 @@ namespace RngManager {
         auto rng = std::mt19937_64 { save::gSaveFile.rngSeed };
         u64 high = rng() & 0xFFFFFFFF;
         u64 low = rng() & 0xFFFFFFFF;
-        high = hk::util::hashMurmur(input_bytes, Size, high);
-        low = hk::util::hashMurmur(input_bytes, Size, low);
+        high = hk::util::hashMurmur(input_bytes, (u32)Size, high);
+        low = hk::util::hashMurmur(input_bytes, (u32)Size, low);
         return MersenneTwister(low | (high << 32));
     }
     inline MersenneTwister NewRandomGenerator(const std::string input) {

@@ -4,6 +4,7 @@
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
 #include "orion/field/FieldManager.hpp"
+#include "gift_encounters.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
 #include "save/SaveFile.hpp"
@@ -40,5 +41,6 @@ extern "C" void hkMain()
     onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
     installQualityOfLifeHooks();
     installPokemonModelHooks();
+    installGiftEncountersHooks();
     gui::installHooks();
 }

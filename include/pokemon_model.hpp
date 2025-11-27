@@ -11,6 +11,7 @@
 #include "save/SaveFile.hpp"
 #include "util/FNV.hpp"
 #include "hook/InlineHook.hpp"
+#include "orion/field/FieldObjects_flatbuffer.h"
 
 // specifically the initial starter models
 static const std::set<u64> starters = {
@@ -78,11 +79,9 @@ inline auto randomizePokemonModelsOnLoad = hook::inlineHook([](hook::CpuState* s
     if (!save::gSaveFile.randomizePokemonModels) {
         return;
     }
-    // TODO: flatbuffer schemas
-    // auto fb = reinterpret_cast<FlatbufferObjects::PokemonModel*>(ctx->X[27]);
+    auto fb = pun<orion::field::flatbuffers::PokemonModel*>(state->X[27]);
     u64 sp = state->X[1] - 0x100;
-    // u64 hash = fb->inner()->inner()->field_object()->unique_hash();
-    u64 hash = 0x1234;
+    u64 hash = fb->inner()->inner()->field_object()->unique_hash();
     s32* species_ptr = pun<s32*>(sp + 0xE0);
     s16* form_ptr = pun<s16*>(sp + 0xE4);
     replace_species_form(hash, species_ptr, form_ptr);
@@ -98,8 +97,7 @@ inline auto randomizePokemonModels = hook::inlineHook([](hook::CpuState* state) 
     }
     // TODO: is encount object
     auto pokemon_model = pun<orion::field::PokemonModel*>(state->X[19]);
-    // u64 hash = pokemon_model->uniqueHash;
-    u64 hash = 0x1234;
+    u64 hash = pokemon_model->uniqueHash;
     s32* species_ptr = &pokemon_model->species;
     s16* form_ptr = pun<s16*>(&pokemon_model->form);
     replace_species_form(hash, species_ptr, form_ptr);
