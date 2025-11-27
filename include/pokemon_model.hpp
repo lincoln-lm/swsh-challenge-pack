@@ -90,6 +90,14 @@ inline auto randomizePokemonModelsOnLoad = hook::inlineHook([](hook::CpuState* s
 });
 
 inline static bool sIsConstructingEncountObject = false;
+constexpr u64 cPokemonCenterHashes[6] = {
+    util::fnv1a("HealPoke_00"),
+    util::fnv1a("HealPoke_01"),
+    util::fnv1a("HealPoke_02"),
+    util::fnv1a("HealPoke_03"),
+    util::fnv1a("HealPoke_04"),
+    util::fnv1a("HealPoke_05"),
+};
 inline auto randomizePokemonModels = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[8] = *pun<s32*>(state->X[20]);
@@ -100,6 +108,11 @@ inline auto randomizePokemonModels = hook::inlineHook([](hook::CpuState* state) 
         return;
     }
     auto pokemon_model = pun<orion::field::PokemonModel*>(state->X[19]);
+    for (auto pokemon_center_hash : cPokemonCenterHashes) {
+        if (pokemon_model->uniqueHash == pokemon_center_hash) {
+            return;
+        }
+    }
     u64 hash = pokemon_model->uniqueHash;
     s32* species_ptr = &pokemon_model->species;
     s16* form_ptr = pun<s16*>(&pokemon_model->form);

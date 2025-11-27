@@ -6,7 +6,7 @@ namespace util {
         orion::string::HashedString result = {
             0xcbf29ce484222645,
             str,
-            strlen(str),
+            __builtin_strlen(str),
             0
         };
         for (size i = 0; i < result.length; i++) {
