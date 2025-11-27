@@ -10,10 +10,26 @@ file(GLOB_RECURSE ALL_SCHEMAS ${PROJECT_SOURCE_DIR}/schemas/*.fbs)
 foreach(SCHEMA ${ALL_SCHEMAS})
     get_filename_component(FOLDER ${SCHEMA} DIRECTORY)
     file(RELATIVE_PATH REL_FOLDER ${PROJECT_SOURCE_DIR}/schemas/ ${FOLDER})
+    string(REPLACE "/" "_" REL_FOLDER_SANITIZED ${REL_FOLDER})
+    get_filename_component(SCHEMA_NAME_WE ${SCHEMA} NAME_WE)
     flatbuffers_generate_headers(
-        TARGET orion
+        TARGET orion_${REL_FOLDER_SANITIZED}
         SCHEMAS ${SCHEMA}
-        INCLUDE_PREFIX ${REL_FOLDER}
         FLAGS ${FLATC_FLAGS}
     )
+    set(HEADER_SRC ${CMAKE_CURRENT_BINARY_DIR}/orion_${REL_FOLDER_SANITIZED}/${SCHEMA_NAME_WE}_flatbuffer.h)
+    set(DEST_DIR ${CMAKE_CURRENT_BINARY_DIR}/orion/${REL_FOLDER})
+    file(MAKE_DIRECTORY ${DEST_DIR})
+    set(HEADER_DST ${DEST_DIR}/${SCHEMA_NAME_WE}_flatbuffer.h)
+
+    add_custom_command(
+        OUTPUT ${HEADER_DST}
+        COMMAND ${CMAKE_COMMAND} -E copy ${HEADER_SRC} ${HEADER_DST}
+        DEPENDS orion_${REL_FOLDER_SANITIZED}
+        COMMENT "Copying FlatBuffers header ${SCHEMA_NAME_WE}_flatbuffer.h"
+    )
+
+    list(APPEND ALL_COPIED_HEADERS ${HEADER_DST})
 endforeach()
+
+add_custom_target(orion_headers ALL DEPENDS ${ALL_COPIED_HEADERS})
