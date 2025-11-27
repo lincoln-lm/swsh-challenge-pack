@@ -1,3 +1,4 @@
+#include "event_encounters.hpp"
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/InputManager.hpp"
@@ -42,5 +43,6 @@ extern "C" void hkMain()
     installQualityOfLifeHooks();
     installPokemonModelHooks();
     installGiftEncountersHooks();
+    installEventEncountersHooks();
     gui::installHooks();
 }

@@ -52,6 +52,7 @@ namespace save {
         SETTING(BooleanSetting, skipIntro, "Skip Intro", "Skips the intro cutscene with Rose (and any other \"sequences\").", true, true);
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true);
         SETTING(BooleanSetting, randomizeGiftEncounters, "Randomize Gifts", "Randomize the species, form, ability, etc. of gift pokemon. Additionally removes their shiny locks.", true, false);
+        SETTING(BooleanSetting, randomizeEventEncounters, "Randomize Scripted Encounters", "Randomize the species, form, ability, etc. of scripted encounters like legendaries. Additionally removes their shiny locks.", true, false);
         SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
         SETTING(BooleanSetting, hideStarters, "Hide Starters", "Displays starters as pikachu so you won't know what they are randomized to.", false, true);
 
@@ -67,6 +68,7 @@ namespace save {
             &gSaveFile.skipIntro,
             &gSaveFile.instantText,
             &gSaveFile.randomizeGiftEncounters,
+            &gSaveFile.randomizeEventEncounters,
             &gSaveFile.randomizePokemonModels,
             &gSaveFile.hideStarters,
             &gSaveFile.rngSeed,
