@@ -38,7 +38,7 @@ inline HkTrampoline<orion::options::TextSpeed, orion::options::OptionsHolder*> i
 });
 
 inline HkTrampoline<orion::pawn::ucell, orion::pawn::AMX*> skipTextWait = hk::hook::trampoline([](orion::pawn::AMX* amx) -> orion::pawn::ucell {
-    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isJustPressed(nn::hid::NpadButton::B)) {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
         return 1;
     }
     return skipTextWait.orig(amx);
