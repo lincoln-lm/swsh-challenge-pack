@@ -14,7 +14,7 @@
 #include "orion/field/FieldObjects_flatbuffer.h"
 
 // specifically the initial starter models
-static const std::set<u64> starters = {
+inline const std::set<u64> cStarterHashes = {
     // sobble
     util::fnv1a("z_t0101_MIZU"),
     // scorbunny
@@ -23,7 +23,7 @@ static const std::set<u64> starters = {
     util::fnv1a("z_t0101_KUSA"),
 };
 
-static const std::map<u64, u64> hash_seed_map = {
+inline const std::map<u64, u64> cHashToSeedMap = {
     // sobble
     { util::fnv1a("z_t0101_MIZU"), 0x289d0e4aa0fd660d },
     { util::fnv1a("z_t0101_i0101_MIZU"), 0x289d0e4aa0fd660d },
@@ -49,8 +49,8 @@ static void replace_species_form(u64 hash, s32* species_ptr, s16* form_ptr) {
     u64 seed;
     // use gift's add_pokemon hash and event encounters' event_encount hash for the seed
     // TODO: type: null, kanto starters, kubfu, cosmog, poipole, other scripted encounters
-    auto find_seed_result = hash_seed_map.find(hash);
-    if (find_seed_result != hash_seed_map.end()) {
+    auto find_seed_result = cHashToSeedMap.find(hash);
+    if (find_seed_result != cHashToSeedMap.end()) {
         seed = find_seed_result->second;
     } else {
         // it would be neat to randomize all models based on their hash
@@ -63,7 +63,7 @@ static void replace_species_form(u64 hash, s32* species_ptr, s16* form_ptr) {
     // randomize the same as gifts.hpp
     auto rng = RngManager::NewRandomGenerator(seed);
     auto [species, form] = rng.RandSpeciesAndForm();
-    if (save::gSaveFile.randomizePokemonModels && save::gSaveFile.hideStarters && starters.find(hash) != starters.end()) {
+    if (save::gSaveFile.randomizePokemonModels && save::gSaveFile.hideStarters && cStarterHashes.find(hash) != cStarterHashes.end()) {
         // (0, 0) is a pikachu
         // TODO: fun custom model?
         species = 0;
@@ -89,7 +89,7 @@ inline auto randomizePokemonModelsOnLoad = hook::inlineHook([](hook::CpuState* s
     state->X[8] = *form_ptr;
 });
 
-inline static bool sIsConstructingEncountObject = false;
+inline bool sIsConstructingEncountObject = false;
 constexpr u64 cPokemonCenterHashes[6] = {
     util::fnv1a("HealPoke_00"),
     util::fnv1a("HealPoke_01"),
