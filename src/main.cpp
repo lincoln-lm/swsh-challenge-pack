@@ -9,6 +9,7 @@
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
 #include "save/SaveFile.hpp"
+#include "wild_encounters.hpp"
 
 extern "C" {
     void* __libc_malloc(std::size_t size) {
@@ -44,5 +45,6 @@ extern "C" void hkMain()
     installPokemonModelHooks();
     installGiftEncountersHooks();
     installEventEncountersHooks();
+    installWildEncountersHooks();
     gui::installHooks();
 }

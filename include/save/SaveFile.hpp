@@ -51,6 +51,8 @@ namespace save {
         SETTING(BooleanSetting, qualityOfLife, "Quality of Life", "Enables the quality of life features category. (has subsettings)", true, false);
         SETTING(BooleanSetting, skipIntro, "Skip Intro", "Skips the intro cutscene with Rose (and any other \"sequences\").", true, true);
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true);
+        SETTING(BooleanSetting, randomizeWildEncounters, "Randomize Wild Encounters", "Randomize the species, form, ability, etc. of wild pokemon including gimmick spawns (strong spawns). (has subsettings)", true, false);
+        SETTING(BooleanSetting, liveRandomizeWildEncounters, "Live Randomization", "Generates a random pokemon *each* time a wild pokemon is generated rather than referencing a static table for each route.", true, true);
         SETTING(BooleanSetting, randomizeGiftEncounters, "Randomize Gifts", "Randomize the species, form, ability, etc. of gift pokemon. Additionally removes their shiny locks.", true, false);
         SETTING(BooleanSetting, randomizeEventEncounters, "Randomize Scripted Encounters", "Randomize the species, form, ability, etc. of scripted encounters like legendaries. Additionally removes their shiny locks.", true, false);
         SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
@@ -67,6 +69,8 @@ namespace save {
             &gSaveFile.qualityOfLife,
             &gSaveFile.skipIntro,
             &gSaveFile.instantText,
+            &gSaveFile.randomizeWildEncounters,
+            &gSaveFile.liveRandomizeWildEncounters,
             &gSaveFile.randomizeGiftEncounters,
             &gSaveFile.randomizeEventEncounters,
             &gSaveFile.randomizePokemonModels,

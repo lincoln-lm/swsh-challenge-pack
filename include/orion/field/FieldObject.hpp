@@ -137,5 +137,10 @@ namespace field {
         static void Constructor(EncountObject* obj, u64 p1, u64 p2, u64 p3);
         // ...
     };
+    struct GimmickEncountSpawner : FieldObject {
+        static void* sVTable[];
+        void Spawn();
+        // ...
+    };
 }
 }
