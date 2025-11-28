@@ -13,6 +13,6 @@ namespace orion::learn {
         LearnsetItem learnsetItems[65];
         u8 count;
     } __attribute__((packed));
-    extern Learnset (*sTotalLearnsetData)[65];
+    extern LearnsetItem (*sTotalLearnsetData)[65];
     void GetLearnsetData(Learnset* out, s32 species, s32 form);
 }
