@@ -1,6 +1,28 @@
 #pragma once
 #include "hk/types.h"
 namespace orion::field::encounter {
+    enum EventEncounterScenario {
+        None,
+        Legendary_Pokemon,
+        _2,
+        _3,
+        Eternatus,
+        Eternamax_Eternatus_1,
+        Eternamax_Eternatus_2,
+        Zacian_Zamazenta_Fog,
+        Motostoke_Gym_Challenge,
+        Max_Raid_Battle_1,
+        Max_Raid_Battle_2,
+        Max_Raid_Battle_3,
+        Max_Raid_Battle_4,
+        Zacian_Zamazenta_Boss,
+        Fast_Slowpoke,
+        Regigigas_Raid_Battle,
+        Special_Raid_Battle,
+        Calyrex,
+        Glastrier_Spectrier,
+        Calyrex_Fusion,
+    }
     struct EventEncounter {
         u64 hash;
         u32 species;

@@ -48,7 +48,7 @@ namespace orion::personal {
     };
     static_assert(offsetof(PersonalInfo, body.weight) == 0x36);
     extern PersonalInfo* sCachedPersonalInfo;
-    enum InfoField {
+    enum class InfoField {
         TYPE_1 = 0x6,
         TYPE_2 = 0x7,
         EXP_GROWTH = 0x17,

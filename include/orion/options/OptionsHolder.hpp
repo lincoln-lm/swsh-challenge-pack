@@ -1,7 +1,7 @@
 #pragma once
 #include "hk/types.h"
 namespace orion::options {
-    enum TextSpeed {
+    enum class TextSpeed {
         Slow = 0,
         Normal = 1,
         Fast = 2,
