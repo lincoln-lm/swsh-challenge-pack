@@ -5,7 +5,7 @@ set(OPTIMIZE_OPTIONS_DEBUG -O2 -gdwarf-4)
 set(OPTIMIZE_OPTIONS_RELEASE -O3 -ffast-math -flto)
 set(WARN_OPTIONS -Werror=return-type -Wno-invalid-offsetof -Wno-deprecated-declarations)
 
-set(DEFINITIONS IMGUI_DISABLE_TTY_FUNCTIONS IMGUI_DISABLE_FILE_FUNCTIONS)
+set(DEFINITIONS IMGUI_DISABLE_TTY_FUNCTIONS IMGUI_DISABLE_FILE_FUNCTIONS HAVE_STDINT_H PAWN_CELL_SIZE=64)
 
 set(ASM_OPTIONS "")
 set(C_OPTIONS -ffunction-sections -fdata-sections)

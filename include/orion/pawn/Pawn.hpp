@@ -1,7 +1,7 @@
 #pragma once
 #include "hk/types.h"
+#include "orion/pawn/amx.h"
 namespace orion::pawn {
-    struct AMX {}; // TODO
-    typedef u64 ucell;
-    ucell ABKeyWait_(AMX* amx);
+    using AMX = tagAMX;
+    ucell ABKeyWait_(AMX* amx, ucell* params);
 }
