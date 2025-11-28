@@ -2,27 +2,25 @@
 #include "hk/types.h"
 namespace orion::field::encounter {
     enum EventEncounterScenario {
-        None,
-        Legendary_Pokemon,
-        _2,
-        _3,
-        Eternatus,
-        Eternamax_Eternatus_1,
-        Eternamax_Eternatus_2,
-        Zacian_Zamazenta_Fog,
-        Motostoke_Gym_Challenge,
-        Max_Raid_Battle_1,
-        Max_Raid_Battle_2,
-        Max_Raid_Battle_3,
-        Max_Raid_Battle_4,
-        Zacian_Zamazenta_Boss,
-        Fast_Slowpoke,
-        Regigigas_Raid_Battle,
-        Special_Raid_Battle,
-        Calyrex,
-        Glastrier_Spectrier,
-        Calyrex_Fusion,
-    }
+        NONE = 0,
+        LEGENDARY,
+        ETERNATUS = 4,
+        ETERNAMAX_1,
+        ETERNAMAX_2,
+        FOG_BOX_LEGENDARY,
+        MOTOSTOKE_ENCOUNTER,
+        MAX_RAID_BATTLE_1,
+        MAX_RAID_BATTLE_2,
+        MAX_RAID_BATTLE_3,
+        MAX_RAID_BATTLE_4,
+        BOX_LEGENDARY_BOSS,
+        FAST_SLOWPOKE,
+        REGIGIGAS,
+        SPECIAL_RAID_BATTLE,
+        CALYREX,
+        GLASTRIER_SPECTRIER,
+        CALYREX_FUSION,
+    };
     struct EventEncounter {
         u64 hash;
         u32 species;

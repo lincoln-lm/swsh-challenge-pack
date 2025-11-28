@@ -12,6 +12,11 @@ inline auto randomizeEventEncounters = hook::inlineHook([](hook::CpuState* state
     }
     auto original_encounter = pun<orion::field::encounter::EventEncounter*>(state->X[0]);
 
+    // don't randomize gimmick spawns (here)
+    if (original_encounter->encounterScenario == orion::field::encounter::EventEncounterScenario::NONE) {
+        return;
+    }
+
     auto rng = RngManager::NewRandomGenerator(original_encounter->hash);
     auto [species, form] = rng.RandSpeciesAndForm();
     std::array<s16, 4> moves;
