@@ -59,4 +59,5 @@ namespace orion::personal {
     void CacheInfo(u16 species, u16 form);
     u32 GetInfoField(PersonalInfo* personalInfo, InfoField field);
     u32 GetCacheInfoField(InfoField field);
+    u64 GetSpeciesFormIndex(u32 species, u32 form);
 }

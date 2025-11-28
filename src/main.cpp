@@ -7,6 +7,7 @@
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
 #include "orion/field/FieldManager.hpp"
+#include "learnset.hpp"
 #include "gift_encounters.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
@@ -40,6 +41,7 @@ void installModHooks() {
     installTrainerTeamsHooks();
     installEvolutionsHooks();
     installFieldItemsHooks();
+    installLearnsetHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
