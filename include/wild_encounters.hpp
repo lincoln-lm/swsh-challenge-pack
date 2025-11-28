@@ -105,7 +105,7 @@ inline HkTrampoline<void, orion::field::encounter::EncounterGenerator*, orion::f
         auto rng = RngManager::NewRandomGenerator();
         auto [species, form] = rng.RandSpeciesAndForm();
         // TODO: level boosts
-        // if (save_file.wild_rng.level_boost) {
+        // if (save::gSaveFile.wildLevelBoost) {
         //     minimum_level = level_boost(minimum_level);
         //     maximum_level = level_boost(maximum_level);
         // }
