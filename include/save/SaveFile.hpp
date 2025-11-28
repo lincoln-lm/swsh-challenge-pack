@@ -85,6 +85,7 @@ namespace save {
             &gSaveFile.randomizeEvolutions,
             &gSaveFile.randomizeEvolutionsMatchTypes,
             &gSaveFile.randomizeEvolutionsEachLevel,
+            &gSaveFile.randomizeLearnsets,
             &gSaveFile.randomizeFieldItems,
             &gSaveFile.rngSeed,
         });
