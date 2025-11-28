@@ -62,6 +62,7 @@ namespace save {
         SETTING(BooleanSetting, randomizeEvolutionsMatchTypes, "Match Types", "Ensures the evolution shares a type with the pokemon it evolves from.", true, true);
         SETTING(BooleanSetting, randomizeEvolutionsEachLevel, "Each Level", "Every pokemon evolves after each level up.", true, true);
         SETTING(BooleanSetting, randomizeLearnsets, "Randomize Learnsets", "Randomizes the moves that pokemon learn. Additionally tries to ensure there are at least 4 moves at level 1 for a complete moveset.", true, false);
+        SETTING(BooleanSetting, randomizePersonalInfo, "Randomize Personal Info", "Randomizes the base stats and abilities of all pokemon. Attempts to maintain the pokemon's original base stat total by redistributing the stats.", true, false);
         SETTING(BooleanSetting, randomizeFieldItems, "Randomize Field Items", "Randomizes hidden and visible field items. TMs are randomized to other TMs.", true, false);
 
         SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
@@ -86,6 +87,7 @@ namespace save {
             &gSaveFile.randomizeEvolutionsMatchTypes,
             &gSaveFile.randomizeEvolutionsEachLevel,
             &gSaveFile.randomizeLearnsets,
+            &gSaveFile.randomizePersonalInfo,
             &gSaveFile.randomizeFieldItems,
             &gSaveFile.rngSeed,
         });

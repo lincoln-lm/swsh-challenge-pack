@@ -1,5 +1,6 @@
 #pragma once
 #include "hk/types.h"
+#include <span>
 namespace orion::personal {
     struct PersonalInfo {
         u64 unk0;
@@ -44,6 +45,11 @@ namespace orion::personal {
             u16 height;
             u16 weight;
             // ... TODO
+            inline auto baseStats() { return std::span<u8, 6>(&baseHp, 6); };
+            inline auto types() { return std::span<u8, 2>(&type1, 2); };
+            inline auto eggGroups() { return std::span<u8, 6>(&eggGroup1, 2); };
+            inline auto abilities() { return std::span<u16, 6>(&ability1, 3); };
+            inline auto heldItems() { return std::span<u16, 6>(&item1, 3); };
         } body;
     };
     static_assert(offsetof(PersonalInfo, body.weight) == 0x36);
