@@ -9,6 +9,7 @@
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
 #include "save/SaveFile.hpp"
+#include "trainer_teams.hpp"
 #include "wild_encounters.hpp"
 
 extern "C" {
@@ -46,5 +47,6 @@ extern "C" void hkMain()
     installGiftEncountersHooks();
     installEventEncountersHooks();
     installWildEncountersHooks();
+    installTrainerTeamsHooks();
     gui::installHooks();
 }

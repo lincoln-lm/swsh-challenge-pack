@@ -55,6 +55,7 @@ namespace save {
         SETTING(BooleanSetting, liveRandomizeWildEncounters, "Live Randomization", "Generates a random pokemon *each* time a wild pokemon is generated rather than referencing a static table for each route.", true, true);
         SETTING(BooleanSetting, randomizeGiftEncounters, "Randomize Gifts", "Randomize the species, form, ability, etc. of gift pokemon. Additionally removes their shiny locks.", true, false);
         SETTING(BooleanSetting, randomizeEventEncounters, "Randomize Scripted Encounters", "Randomize the species, form, ability, etc. of scripted encounters like legendaries. Additionally removes their shiny locks.", true, false);
+        SETTING(BooleanSetting, randomizeTrainerTeams, "Randomize Trainer Teams", "Randomizes the species, form, ability, etc. of trainer pokemon. Additionally gives them a 1/4096 chance of being shiny :)", true, false);
         SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
         SETTING(BooleanSetting, hideStarters, "Hide Starters", "Displays starters as pikachu so you won't know what they are randomized to.", false, true);
 
