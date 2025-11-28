@@ -58,6 +58,9 @@ namespace save {
         SETTING(BooleanSetting, randomizeTrainerTeams, "Randomize Trainer Teams", "Randomizes the species, form, ability, etc. of trainer pokemon. Additionally gives them a 1/4096 chance of being shiny :)", true, false);
         SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
         SETTING(BooleanSetting, hideStarters, "Hide Starters", "Displays starters as pikachu so you won't know what they are randomized to.", false, true);
+        SETTING(BooleanSetting, randomizeEvolutions, "Randomize Evolutions", "Randomizes what pokemon evolve into. (has subsettings)", true, false);
+        SETTING(BooleanSetting, randomizeEvolutionsMatchTypes, "Match Types", "Ensures the evolution shares a type with the pokemon it evolves from.", true, true);
+        SETTING(BooleanSetting, randomizeEvolutionsEachLevel, "Each Level", "Every pokemon evolves after each level up.", true, true);
 
         SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
         SaveFile() {
@@ -74,8 +77,12 @@ namespace save {
             &gSaveFile.liveRandomizeWildEncounters,
             &gSaveFile.randomizeGiftEncounters,
             &gSaveFile.randomizeEventEncounters,
+            &gSaveFile.randomizeTrainerTeams,
             &gSaveFile.randomizePokemonModels,
             &gSaveFile.hideStarters,
+            &gSaveFile.randomizeEvolutions,
+            &gSaveFile.randomizeEvolutionsMatchTypes,
+            &gSaveFile.randomizeEvolutionsEachLevel,
             &gSaveFile.rngSeed,
         });
     }

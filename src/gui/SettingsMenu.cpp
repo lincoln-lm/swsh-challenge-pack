@@ -20,11 +20,29 @@ namespace gui::SettingsMenu {
     // TODO
     constexpr static size cMaxEntries = 0x20;
     constexpr static size cConfirmIndex = 0;
-    bool isOpen = true;
+    bool isOpen = false;
     size indexLookup[cMaxEntries] = {0 };
     size selectedIndex = 0;
     size scrollOffset = 0;
     size lastNumEntries = 0;
+
+    OnCloseFunction onClose = nullptr;
+
+    void open(OnCloseFunction onCloseFn) {
+        save::load();
+        InputManager::lockInput();
+        onClose = onCloseFn;
+        isOpen = true;
+    }
+
+    void close() {
+        save::save();
+        InputManager::unlockInput();
+        isOpen = false;
+        if (onClose != nullptr) {
+            onClose();
+        }
+    }
 
     bool getIsOpen() {
         return isOpen;
@@ -49,8 +67,7 @@ namespace gui::SettingsMenu {
         }
         if (InputManager::isJustPressed(nn::hid::NpadButton::A)) {
             if (selectedIndex == cConfirmIndex) {
-                isOpen = false;
-                save::save();
+                close();
                 return;
             }
             auto entries = save::getSaveFileFields();

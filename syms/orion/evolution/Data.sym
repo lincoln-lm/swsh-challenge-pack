@@ -1,0 +1,8 @@
+@game:shield
+_ZN5orion9evolution18sEvolutionSetCacheE = 0x28f5b28
+_ZN5orion9evolution19sActiveEvolutionSetE = 0x28f5b08
+_ZN5orion9evolution17FetchEvolutionSetEjj = 0x764d20
+_ZN5orion9evolution16LoadEvolutionSetEPNS0_12EvolutionSetEjj = 0x786150
+
+_ZN5orion9evolution17EvolutionSetCache3AddEPNS0_12EvolutionSetE = 0x787ad0
+_ZN5orion9evolution17EvolutionSetCache6TryGetEjjPNS0_12EvolutionSetE = 0x787a20

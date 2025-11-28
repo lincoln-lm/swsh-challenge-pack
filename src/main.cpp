@@ -1,4 +1,5 @@
 #include "event_encounters.hpp"
+#include "evolutions.hpp"
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/InputManager.hpp"
@@ -8,7 +9,6 @@
 #include "gift_encounters.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
-#include "save/SaveFile.hpp"
 #include "trainer_teams.hpp"
 #include "wild_encounters.hpp"
 
@@ -23,18 +23,25 @@ extern "C" {
 
 void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     InputManager::updateControllerState();
-    // TODO: better logic where locking/unlocking isnt done every frame
     if (!SettingsMenu::getIsOpen()) {
-        InputManager::unlockInput();
         return;
     }
-    InputManager::lockInput();
     SettingsMenu::inputHandling();
     SettingsMenu::draw(renderer);
 }
 
+void installModHooks() {
+    installQualityOfLifeHooks();
+    installPokemonModelHooks();
+    installGiftEncountersHooks();
+    installEventEncountersHooks();
+    installWildEncountersHooks();
+    installTrainerTeamsHooks();
+    installEvolutionsHooks();
+}
+
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
-    save::load();
+    gui::SettingsMenu::open(installModHooks);
     return onGameInit.orig(this_, param_1, param_2, param_3);
 });
 
@@ -42,11 +49,5 @@ extern "C" void hkMain()
 {
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
-    installQualityOfLifeHooks();
-    installPokemonModelHooks();
-    installGiftEncountersHooks();
-    installEventEncountersHooks();
-    installWildEncountersHooks();
-    installTrainerTeamsHooks();
     gui::installHooks();
 }
