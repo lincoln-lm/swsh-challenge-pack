@@ -11,6 +11,7 @@
 #include "gift_encounters.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
+#include "shop_filter.hpp"
 #include "trainer_teams.hpp"
 #include "wild_encounters.hpp"
 #include "personal_total.hpp"
@@ -44,6 +45,7 @@ void installModHooks() {
     installFieldItemsHooks();
     installLearnsetHooks();
     installPersonalTotalHooks();
+    installShopFilterHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {

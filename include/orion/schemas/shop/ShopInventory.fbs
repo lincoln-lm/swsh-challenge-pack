@@ -1,0 +1,6 @@
+namespace orion.shop.flatbuffers;
+table ShopInventory {
+    items: [int];
+}
+
+root_type ShopInventory;

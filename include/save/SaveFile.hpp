@@ -64,6 +64,7 @@ namespace save {
         SETTING(BooleanSetting, randomizeLearnsets, "Randomize Learnsets", "Randomizes the moves that pokemon learn. Additionally tries to ensure there are at least 4 moves at level 1 for a complete moveset.", true, false);
         SETTING(BooleanSetting, randomizePersonalInfo, "Randomize Personal Info", "Randomizes the base stats and abilities of all pokemon. Attempts to maintain the pokemon's original base stat total by redistributing the stats.", true, false);
         SETTING(BooleanSetting, randomizeFieldItems, "Randomize Field Items", "Randomizes hidden and visible field items. TMs are randomized to other TMs.", true, false);
+        SETTING(BooleanSetting, filterShop, "Filter Shops", "Filters shops to only sell pokeballs. Empty shops sell only rare bones.", true, false);
 
         SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
         SaveFile() {
@@ -89,6 +90,7 @@ namespace save {
             &gSaveFile.randomizeLearnsets,
             &gSaveFile.randomizePersonalInfo,
             &gSaveFile.randomizeFieldItems,
+            &gSaveFile.filterShop,
             &gSaveFile.rngSeed,
         });
     }
