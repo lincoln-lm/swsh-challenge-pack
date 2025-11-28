@@ -1,5 +1,6 @@
 #include "event_encounters.hpp"
 #include "evolutions.hpp"
+#include "field_items.hpp"
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/InputManager.hpp"
@@ -38,6 +39,7 @@ void installModHooks() {
     installWildEncountersHooks();
     installTrainerTeamsHooks();
     installEvolutionsHooks();
+    installFieldItemsHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {

@@ -142,5 +142,13 @@ namespace field {
         void Spawn();
         // ...
     };
+    struct FieldSparkleItem : FieldObject {
+        static void* sVTable[];
+        u8 unk9[0x500-0x398];
+        s32 itemThresholds[8];
+        s32 itemCounts[8];
+        // ...
+    };
+    static_assert(offsetof(FieldSparkleItem, itemThresholds) == 0x500);
 }
 }

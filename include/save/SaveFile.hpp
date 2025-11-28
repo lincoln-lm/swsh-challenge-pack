@@ -61,6 +61,7 @@ namespace save {
         SETTING(BooleanSetting, randomizeEvolutions, "Randomize Evolutions", "Randomizes what pokemon evolve into. (has subsettings)", true, false);
         SETTING(BooleanSetting, randomizeEvolutionsMatchTypes, "Match Types", "Ensures the evolution shares a type with the pokemon it evolves from.", true, true);
         SETTING(BooleanSetting, randomizeEvolutionsEachLevel, "Each Level", "Every pokemon evolves after each level up.", true, true);
+        SETTING(BooleanSetting, randomizeFieldItems, "Randomize Field Items", "Randomizes hidden and visible field items. TMs are randomized to other TMs.", true, false);
 
         SETTING(IntegerSetting, rngSeed, "RNG Seed", "Global seed for random number generation.", 0, false);
         SaveFile() {
@@ -83,6 +84,7 @@ namespace save {
             &gSaveFile.randomizeEvolutions,
             &gSaveFile.randomizeEvolutionsMatchTypes,
             &gSaveFile.randomizeEvolutionsEachLevel,
+            &gSaveFile.randomizeFieldItems,
             &gSaveFile.rngSeed,
         });
     }
