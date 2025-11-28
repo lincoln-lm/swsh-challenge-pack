@@ -75,7 +75,8 @@ namespace gui::SettingsMenu {
             entries[target]->cycleForward();
         }
         if (InputManager::isJustPressed(nn::hid::NpadButton::B)) {
-            scrollOffset = 0;
+            scrollOffset = cConfirmIndex;
+            selectedIndex = cConfirmIndex;
         }
     }
     void draw(hk::gfx::DebugRenderer* renderer)
