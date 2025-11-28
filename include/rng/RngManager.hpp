@@ -83,15 +83,16 @@ class MersenneTwister : public std::mt19937_64 {
 };
 
 namespace RngManager {
-    template<typename T, size_t Size>
-    inline MersenneTwister NewRandomGenerator(std::span<const T, Size> input) {
+    template<typename T>
+    inline MersenneTwister NewRandomGenerator(std::span<const T> input) {
+        const size size = input.size_bytes();
         const u8* input_bytes = pun<u8*>(input.data());
         // TODO: this is probably dumb
         auto rng = std::mt19937_64 { save::gSaveFile.rngSeed };
         u64 high = rng() & 0xFFFFFFFF;
         u64 low = rng() & 0xFFFFFFFF;
-        high = hk::util::hashMurmur(input_bytes, (u32)Size, high);
-        low = hk::util::hashMurmur(input_bytes, (u32)Size, low);
+        high = hk::util::hashMurmur(input_bytes, (u32)size, high);
+        low = hk::util::hashMurmur(input_bytes, (u32)size, low);
         return MersenneTwister(low | (high << 32));
     }
     inline MersenneTwister NewRandomGenerator(const std::string input) {
@@ -100,7 +101,7 @@ namespace RngManager {
     template<typename T>
     requires std::is_integral_v<T>
     inline MersenneTwister NewRandomGenerator(const T input) {
-        return NewRandomGenerator(std::span<const char, sizeof(T)>(reinterpret_cast<const char*>(&input), sizeof(T)));
+        return NewRandomGenerator(std::span<const char>(reinterpret_cast<const char*>(&input), sizeof(T)));
     }
     inline MersenneTwister NewRandomGenerator() {
         return NewRandomGenerator(hk::util::getRandomU64());
