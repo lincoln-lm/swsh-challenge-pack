@@ -9,6 +9,7 @@ inline HkTrampoline<void, orion::filesystem::GFFile*> detectSave = hk::hook::tra
         hk::diag::log("Detected game save");
         save::save();
     }
+    detectSave.orig(this_);
 });
 
 inline void installSaveDetectionHooks() {
