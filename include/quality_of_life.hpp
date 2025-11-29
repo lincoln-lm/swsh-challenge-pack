@@ -48,7 +48,7 @@ inline HkTrampoline<ucell, orion::pawn::AMX*, ucell*> skipMessageClose = hk::hoo
     if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
         return 1;
     }
-    return skipTextWait.orig(amx, params);
+    return skipMessageClose.orig(amx, params);
 });
 
 inline void installQualityOfLifeHooks() {
