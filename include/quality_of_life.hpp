@@ -39,6 +39,13 @@ inline HkTrampoline<orion::options::TextSpeed, orion::options::OptionsHolder*> i
 
 inline HkTrampoline<ucell, orion::pawn::AMX*, ucell*> skipTextWait = hk::hook::trampoline([](orion::pawn::AMX* amx, ucell* params) -> ucell {
     if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
+        return 0;
+    }
+    return skipTextWait.orig(amx, params);
+});
+
+inline HkTrampoline<ucell, orion::pawn::AMX*, ucell*> skipMessageClose = hk::hook::trampoline([](orion::pawn::AMX* amx, ucell* params) -> ucell {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
         return 1;
     }
     return skipTextWait.orig(amx, params);
@@ -48,4 +55,5 @@ inline void installQualityOfLifeHooks() {
     skipBSeq.installAtPtr(pun<void*>(&orion::movie::BSeqHandler::Deserialize));
     instantText.installAtPtr(pun<void*>(&orion::options::OptionsHolder::GetTextSpeed));
     skipTextWait.installAtPtr(pun<void*>(&orion::pawn::ABKeyWait_));
+    skipMessageClose.installAtPtr(pun<void*>(&orion::pawn::IsMsgWinEnd_));
 }
