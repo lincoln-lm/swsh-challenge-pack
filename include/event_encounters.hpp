@@ -13,7 +13,8 @@ inline auto randomizeEventEncounters = hook::inlineHook([](hook::CpuState* state
     auto original_encounter = pun<orion::field::encounter::EventEncounter*>(state->X[0]);
 
     // don't randomize gimmick spawns (here)
-    if (original_encounter->encounterScenario == orion::field::encounter::EventEncounterScenario::NONE) {
+    bool is_gimmick = original_encounter->backgroundNearTypeId == 0xD83D0EED33AB2E05 && original_encounter->encounterScenario != orion::field::encounter::EventEncounterScenario::MOTOSTOKE_ENCOUNTER;
+    if (is_gimmick) {
         return;
     }
 
