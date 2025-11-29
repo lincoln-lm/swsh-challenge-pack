@@ -1,5 +1,4 @@
 #pragma once
-#include "hk/types.h"
 #include "orion/pawn/amx.h"
 namespace orion::pawn {
     using AMX = tagAMX;
