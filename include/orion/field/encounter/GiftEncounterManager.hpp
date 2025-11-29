@@ -4,6 +4,6 @@
 namespace orion::field::encounter {
     struct GiftEncounterManager {
         // TODO
-        flatbuffers::GiftEncounter* GetGift(u64* hash_ptr);
+        flatbuffers::GiftEncounter* GetGift(u64* hashPtr);
     };
 }
