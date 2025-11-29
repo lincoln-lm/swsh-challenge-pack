@@ -1,21 +1,26 @@
 #pragma once
 
-#include "hook/InlineHook.hpp"
+#include "hk/hook/Trampoline.h"
+#include "orion/field/FieldObject.hpp"
 #include "orion/field/encounter/EventEncounterManager.hpp"
 #include "rng/RngManager.hpp"
 #include <span>
-inline auto randomizeEventEncounters = hook::inlineHook([](hook::CpuState* state) {
-    // original instruction
-    state->X[8] = *pun<u32*>(state->X[20]);
-    if (!save::gSaveFile.randomizeEventEncounters) {
-        return;
-    }
-    auto original_encounter = pun<orion::field::encounter::EventEncounter*>(state->X[0]);
 
+inline bool sIsGimmickSpawnerInit = false;
+
+inline HkTrampoline<bool, orion::field::GimmickEncountSpawner*, void*, void*, void*, void*, void*, void*> logGimmick = hk::hook::trampoline([](orion::field::GimmickEncountSpawner* this_, void* p1, void* p2, void* p3, void* p4, void* p5, void* p6) {
+    sIsGimmickSpawnerInit = true;
+    bool result = logGimmick.orig(this_, p1, p2, p3, p4, p5, p6);
+    sIsGimmickSpawnerInit = false;
+    return result;
+});
+
+inline HkTrampoline<orion::field::encounter::EventEncounter*, orion::field::encounter::EventEncounterManager*, u64*> randomizeEventEncounters = hk::hook::trampoline([](orion::field::encounter::EventEncounterManager* this_, u64* hashPtr) {
+    auto original_encounter = randomizeEventEncounters.orig(this_, hashPtr);
     // don't randomize gimmick spawns (here)
-    bool is_gimmick = original_encounter->backgroundNearTypeId == 0xD83D0EED33AB2E05 && original_encounter->encounterScenario != orion::field::encounter::EventEncounterScenario::MOTOSTOKE_ENCOUNTER;
-    if (is_gimmick) {
-        return;
+    
+    if (sIsGimmickSpawnerInit || !save::gSaveFile.randomizeEventEncounters) {
+        return original_encounter;
     }
 
     auto rng = RngManager::NewRandomGenerator(original_encounter->hash);
@@ -33,8 +38,9 @@ inline auto randomizeEventEncounters = hook::inlineHook([](hook::CpuState* state
         moves.end(),
         original_encounter->moves
     );
+    return original_encounter;
 });
 
 inline void installEventEncountersHooks() {
-    randomizeEventEncounters.installAtPtrOffset(pun<ptr>(&orion::field::encounter::EventEncounterManager::UnpackEventEncounterArchive), 0x8E8);
+    randomizeEventEncounters.installAtPtr(pun<void*>(&orion::field::encounter::EventEncounterManager::GetEvent));
 }

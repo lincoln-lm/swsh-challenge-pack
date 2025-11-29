@@ -1,2 +1,3 @@
 @game:shield
 _ZN5orion5field9encounter21EventEncounterManager27UnpackEventEncounterArchiveEPv = 0xe4b8d0
+_ZN5orion5field9encounter21EventEncounterManager8GetEventEPm = 0xe4c1f0

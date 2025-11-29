@@ -9,3 +9,4 @@ _ZN5orion5field13EncountObject11ConstructorEPS1_mmm = 0xd5da60
 _ZN5orion5field12PokemonModel11ConstructorEPS1_mmm = 0xda8800
 
 _ZN5orion5field21GimmickEncountSpawner5SpawnEv = 0xd5c560
+_ZN5orion5field21GimmickEncountSpawner4InitEPvS2_S2_S2_S2_S2_ = 0xd5ad60

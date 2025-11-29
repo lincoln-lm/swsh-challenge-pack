@@ -139,6 +139,7 @@ namespace field {
     };
     struct GimmickEncountSpawner : FieldObject {
         static void* sVTable[];
+        bool Init(void* p1, void* p2, void* p3, void* p4, void* p5, void* p6);
         void Spawn();
         // ...
     };

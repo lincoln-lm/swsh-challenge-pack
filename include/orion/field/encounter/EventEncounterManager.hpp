@@ -49,5 +49,6 @@ namespace orion::field::encounter {
     struct EventEncounterManager {
         // TODO
         void UnpackEventEncounterArchive(void* archiveFlatbuffer);
+        EventEncounter* GetEvent(u64* hashPtr);
     };
 }
