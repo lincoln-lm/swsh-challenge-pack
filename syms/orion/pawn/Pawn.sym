@@ -1,3 +1,5 @@
 @game:shield
+amx_Callback = 0x66cfe0
+
 _ZN5orion4pawn10ABKeyWait_EP6tagAMXPm = 0x1471900
 _ZN5orion4pawn12IsMsgWinEnd_EP6tagAMXPm = 0x14b5730
