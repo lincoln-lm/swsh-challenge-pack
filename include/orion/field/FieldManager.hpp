@@ -17,6 +17,8 @@ namespace field {
             return sInstance->fieldObjects;
         }
         static FieldManager* ctor(FieldManager* this_, int param_1, void* param_2, u64 param_3);
+        static void RequestObjectDeletion(u64* hashPtr);
+        void UpdateLazyObjects();
     };
     static_assert(offsetof(FieldManager, fieldObjects) == 0xb0);
     static_assert(sizeof(FieldManager) == 0xd0);

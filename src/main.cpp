@@ -13,6 +13,8 @@
 #include "gift_encounters.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
+#include "route_restriction.hpp"
+#include "save_detection.hpp"
 #include "shop_filter.hpp"
 #include "trainer_teams.hpp"
 #include "wild_encounters.hpp"
@@ -50,6 +52,8 @@ void installModHooks() {
     installShopFilterHooks();
     installGiftTMsHooks();
     installLevelCapHooks();
+    installRouteRestrictionHooks();
+    installSaveDetectionHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {

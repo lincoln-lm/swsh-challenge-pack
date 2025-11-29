@@ -1,2 +1,3 @@
 @game:shield
 _ZN5orion5field12EventManager10OnInteractEPv = 0xdc6380
+_ZN5orion5field12EventManager14CheckEncounterEPv = 0xdc77a0

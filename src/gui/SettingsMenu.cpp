@@ -21,7 +21,7 @@ namespace gui::SettingsMenu {
     constexpr static size cMaxEntries = 0x20;
     constexpr static size cConfirmIndex = 0;
     bool isOpen = false;
-    size indexLookup[cMaxEntries] = {0 };
+    size indexLookup[cMaxEntries] = {0};
     size selectedIndex = 0;
     size scrollOffset = 0;
     size lastNumEntries = 0;
@@ -103,6 +103,9 @@ namespace gui::SettingsMenu {
         lastNumEntries++;
 
         for (size i = 0; i < entries.size(); i++) {
+            // skip over display=false entries
+            while (i < entries.size() && !entries[i]->display) {i++;}
+            if (i >= entries.size()) break;
             auto entry = entries[i];
             indexLookup[lastNumEntries] = i;
             if (scrollOffset <= lastNumEntries && lastNumEntries < scrollOffset + cRowCount) {

@@ -13,6 +13,7 @@ namespace orion::filesystem {
         Allocator* activeAllocator;
         size bufferSize;
         size bufferAlignment;
+        void WriteToDisk();
     };
     static_assert(offsetof(GFFile, filePath) == 0x68 + 0x8);
     static_assert(offsetof(GFFile, fileSize) == 0x180);

@@ -1,5 +1,6 @@
 #pragma once
 #include "hk/types.h"
+#include "orion/field/encounter/OverworldEncounterManager.hpp"
 namespace orion {
     // TODO: better organize
     struct TypeInfo {
@@ -129,14 +130,23 @@ namespace field {
         s32 species;
         s32 form;
         // ...
+        u8 unk10[0x8a0 - 0x5cc - 4 - 4];
     };
     static_assert(offsetof(PokemonModel, species) == 0x5cc);
     static_assert(offsetof(PokemonModel, form) == 0x5cc + 4);
+    static_assert(sizeof(PokemonModel) == 0x8a0);
     struct EncountObject : PokemonModel {
         static void* sVTable[];
-        static void Constructor(EncountObject* obj, u64 p1, u64 p2, u64 p3);
+        u32 unk11;
+        s32 unk12;
+        encounter::OverworldSpec overworldSpec;
+        u8 unk13[0xd48 - 0x8a8 - 0x58];
+        u64 spawnerHash;
+        u8 unk14[0xd80-0xd50];
         // ...
+        static void Constructor(EncountObject* obj, u64 p1, u64 p2, u64 p3);
     };
+    static_assert(sizeof(EncountObject) == 0xd80);
     struct GimmickEncountSpawner : FieldObject {
         static void* sVTable[];
         bool Init(void* p1, void* p2, void* p3, void* p4, void* p5, void* p6);
@@ -151,5 +161,9 @@ namespace field {
         // ...
     };
     static_assert(offsetof(FieldSparkleItem, itemThresholds) == 0x500);
+    struct FishingPoint : FieldObject {
+        static void* sVTable[];
+        // ...
+    };
 }
 }
