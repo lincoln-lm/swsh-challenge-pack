@@ -11,6 +11,7 @@
 #include "orion/field/FieldManager.hpp"
 #include "learnset.hpp"
 #include "gift_encounters.hpp"
+#include "permadeath.hpp"
 #include "pokemon_model.hpp"
 #include "quality_of_life.hpp"
 #include "route_restriction.hpp"
@@ -54,6 +55,7 @@ void installModHooks() {
     installLevelCapHooks();
     installRouteRestrictionHooks();
     installSaveDetectionHooks();
+    installPermadeathHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
