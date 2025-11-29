@@ -83,11 +83,11 @@ inline HkTrampoline<void, orion::evolution::EvolutionSet*, u32, u32> randomizeEv
     }
 });
 
-inline std::tuple<u32, u32> lastEvolution = std::make_tuple(0, 0);
+inline std::tuple<u32, u32> sLastEvolution = std::make_tuple(0, 0);
 
 inline HkTrampoline<void, u32, u32> logLastEvolution = hk::hook::trampoline([](u32 species, u32 form) {
     logLastEvolution.orig(species, form);
-    lastEvolution = std::make_tuple(species, form);
+    sLastEvolution = std::make_tuple(species, form);
 });
 
 inline HkTrampoline<bool, orion::evolution::EvolutionSetCache*, u32, u32, orion::evolution::EvolutionSet*> invalidateCache = hk::hook::trampoline([](orion::evolution::EvolutionSetCache* cache, u32 species, u32 form, orion::evolution::EvolutionSet* out) {
@@ -96,7 +96,7 @@ inline HkTrampoline<bool, orion::evolution::EvolutionSetCache*, u32, u32, orion:
     // the game queries the evolution cache multiple times per actual evolution.
     // this means we cannot just invalidate the cache every time and must only invalidate it if the species/form has changed.
     // technically, if the player evolves the same species twice in a row it will maintain the cache, but this is unlikely enough to not matter.
-    if (shouldnt_hook || std::make_tuple(species, form) == lastEvolution) {
+    if (shouldnt_hook || std::make_tuple(species, form) == sLastEvolution) {
         return invalidateCache.orig(cache, species, form, out);
     }
     return false;
