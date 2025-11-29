@@ -5,6 +5,7 @@
 #include "orion/filesystem/GFFile.hpp"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
+#include "util/LevelBoost.hpp"
 
 inline auto randomizeTrainerTeams = hook::inlineHook([](hook::CpuState* state) {
     auto trainer_poke_file = pun<orion::filesystem::GFFile*>(state->X[20]);
@@ -20,10 +21,9 @@ inline auto randomizeTrainerTeams = hook::inlineHook([](hook::CpuState* state) {
             if (trainer_team[i].level == 0 || trainer_team[i].level > 100 || trainer_team[i].species == 0) {
                 continue;
             }
-            // TODO: level boosts
-            // if (save::gSaveFile.trainerLevelBoost) {
-            //     trainer_team[i].level = level_boost(trainer_team[i].level);
-            // }
+            if (save::gSaveFile.trainerLevelBoost) {
+                trainer_team[i].level = util::levelBoost(trainer_team[i].level);
+            }
             auto [
                 species,
                 form

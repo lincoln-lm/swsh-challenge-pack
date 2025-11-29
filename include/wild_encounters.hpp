@@ -6,6 +6,7 @@
 #include "orion/field/encounter/OverworldEncounterManager.hpp"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
+#include "util/LevelBoost.hpp"
 #include <format>
 
 inline auto randomizeGimmickEncounters = hook::inlineHook([](hook::CpuState* state) {
@@ -31,10 +32,9 @@ inline auto randomizeGimmickEncounters = hook::inlineHook([](hook::CpuState* sta
         auto [species, form] = rng.RandSpeciesAndForm();
         gimmick_spec->species = species;
         gimmick_spec->form = form;
-        // TODO: level boosts
-        // if (save::gSaveFile.wildLevelBoost) {
-        //     gimmick_spec->level = level_boost(gimmick_spec->level);
-        // }
+        if (save::gSaveFile.wildLevelBoost) {
+            gimmick_spec->level = util::levelBoost(gimmick_spec->level);
+        }
         gimmick_spec->ability = rng.RandMax(3);
         gimmick_spec->heldItem = rng.RandHeldItem();
         std::array<s16, 4> moves;
@@ -60,11 +60,10 @@ inline auto randomizeSymbolEncounters = hook::inlineHook([](hook::CpuState* stat
     const std::string seed = std::format("symbol_encounter_table_{}", data->hash);
     auto rng = RngManager::NewRandomGenerator(seed);
     for (int weather = 0; weather < 9; weather++) {
-        // TODO: level boosts
-        // if (save::gSaveFile.wildLevelBoost) {
-        //     encounter_tables[weather].minimum_level = level_boost(encounter_tables[weather].minimum_level);
-        //     encounter_tables[weather].maximum_level = level_boost(encounter_tables[weather].maximum_level);
-        // }
+        if (save::gSaveFile.wildLevelBoost) {
+            data->tables[weather].minLevel = util::levelBoost(data->tables[weather].minLevel);
+            data->tables[weather].maxLevel = util::levelBoost(data->tables[weather].maxLevel);
+        }
         for (int i = 0; i < 10; i++) {
             auto slot = &(data->tables[weather].slots[i]);
             slot->rate = 10;
@@ -85,11 +84,10 @@ inline auto randomizeHiddenEncounters = hook::inlineHook([](hook::CpuState* stat
     const std::string seed = std::format("hidden_encounter_table_{}", data->hash);
     auto rng = RngManager::NewRandomGenerator(seed);
     for (int weather = 0; weather < 11; weather++) {
-        // TODO: level boosts
-        // if (save::gSaveFile.wildLevelBoost) {
-        //     encounter_tables[weather].minimum_level = level_boost(encounter_tables[weather].minimum_level);
-        //     encounter_tables[weather].maximum_level = level_boost(encounter_tables[weather].maximum_level);
-        // }
+        if (save::gSaveFile.wildLevelBoost) {
+            data->tables[weather].minLevel = util::levelBoost(data->tables[weather].minLevel);
+            data->tables[weather].maxLevel = util::levelBoost(data->tables[weather].maxLevel);
+        }
         for (int i = 0; i < 10; i++) {
             auto slot = &(data->tables[weather].slots[i]);
             slot->rate = 10;
@@ -104,11 +102,10 @@ inline HkTrampoline<void, orion::field::encounter::EncounterGenerator*, orion::f
     if (save::gSaveFile.liveRandomizeWildEncounters) {
         auto rng = RngManager::NewRandomGenerator();
         auto [species, form] = rng.RandSpeciesAndForm();
-        // TODO: level boosts
-        // if (save::gSaveFile.wildLevelBoost) {
-        //     minimum_level = level_boost(minimum_level);
-        //     maximum_level = level_boost(maximum_level);
-        // }
+        if (save::gSaveFile.wildLevelBoost) {
+            minLevel = util::levelBoost(minLevel);
+            maxLevel = util::levelBoost(maxLevel);
+        }
         slot->species = species;
         slot->form = form;
     }

@@ -53,9 +53,12 @@ namespace save {
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true);
         SETTING(BooleanSetting, randomizeWildEncounters, "Randomize Wild Encounters", "Randomize the species, form, ability, etc. of wild pokemon including gimmick spawns (strong spawns). (has subsettings)", true, false);
         SETTING(BooleanSetting, liveRandomizeWildEncounters, "Live Randomization", "Generates a random pokemon *each* time a wild pokemon is generated rather than referencing a static table for each route.", true, true);
+        SETTING(BooleanSetting, wildLevelBoost, "Boost Level", "Boosts the level of wild pokemon by roughly 1.5x.", true, true);
         SETTING(BooleanSetting, randomizeGiftEncounters, "Randomize Gifts", "Randomize the species, form, ability, etc. of gift pokemon. Additionally removes their shiny locks.", true, false);
         SETTING(BooleanSetting, randomizeEventEncounters, "Randomize Scripted Encounters", "Randomize the species, form, ability, etc. of scripted encounters like legendaries. Additionally removes their shiny locks.", true, false);
-        SETTING(BooleanSetting, randomizeTrainerTeams, "Randomize Trainer Teams", "Randomizes the species, form, ability, etc. of trainer pokemon. Additionally gives them a 1/4096 chance of being shiny :)", true, false);
+        SETTING(BooleanSetting, randomizeTrainerTeams, "Randomize Trainer Teams", "Randomizes the species, form, ability, etc. of trainer pokemon. Additionally gives them a 1/4096 chance of being shiny :). (has subsettings)", true, false);
+        SETTING(BooleanSetting, trainerLevelBoost, "Boost Level", "Boosts the level of trainer pokemon by roughly 1.5x.", true, true);
+        SETTING(BooleanSetting, boostLevelCap, "Boost Capture Level Cap", "Boosts the capture level cap by roughly 1.5x (matches traier & wild boosts).", true, false);
         SETTING(BooleanSetting, randomizePokemonModels, "Randomize Pokemon Models", "Randomizes overworld pokemon models for things like starters and gifts (matches the received pokemon if applicable). (has subsettings)", true, false);
         SETTING(BooleanSetting, hideStarters, "Hide Starters", "Displays starters as pikachu so you won't know what they are randomized to.", false, true);
         SETTING(BooleanSetting, randomizeEvolutions, "Randomize Evolutions", "Randomizes what pokemon evolve into. (has subsettings)", true, false);
@@ -80,9 +83,12 @@ namespace save {
             &gSaveFile.instantText,
             &gSaveFile.randomizeWildEncounters,
             &gSaveFile.liveRandomizeWildEncounters,
+            &gSaveFile.wildLevelBoost,
             &gSaveFile.randomizeGiftEncounters,
             &gSaveFile.randomizeEventEncounters,
             &gSaveFile.randomizeTrainerTeams,
+            &gSaveFile.trainerLevelBoost,
+            &gSaveFile.boostLevelCap,
             &gSaveFile.randomizePokemonModels,
             &gSaveFile.hideStarters,
             &gSaveFile.randomizeEvolutions,

@@ -7,6 +7,7 @@
 #include "gui/InputManager.hpp"
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
+#include "level_cap.hpp"
 #include "orion/field/FieldManager.hpp"
 #include "learnset.hpp"
 #include "gift_encounters.hpp"
@@ -48,6 +49,7 @@ void installModHooks() {
     installPersonalTotalHooks();
     installShopFilterHooks();
     installGiftTMsHooks();
+    installLevelCapHooks();
 }
 
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
