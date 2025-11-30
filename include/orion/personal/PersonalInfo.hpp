@@ -10,9 +10,9 @@ namespace orion::personal {
             u8 baseHp;
             u8 baseAtk;
             u8 baseDef;
+            u8 baseSpeed;
             u8 baseSpAtk;
             u8 baseSpDef;
-            u8 baseSpeed;
             u8 type1; // TODO: type enum
             u8 type2;
             u8 catchRate;
@@ -55,6 +55,12 @@ namespace orion::personal {
     static_assert(offsetof(PersonalInfo, body.weight) == 0x36);
     extern PersonalInfo* sCachedPersonalInfo;
     enum class InfoField {
+        BASE_HP = 0,
+        BASE_ATK = 1,
+        BASE_DEF = 2,
+        BASE_SPE = 3,
+        BASE_SPA = 4,
+        BASE_SPD = 5,
         TYPE_1 = 0x6,
         TYPE_2 = 0x7,
         EXP_GROWTH = 0x17,

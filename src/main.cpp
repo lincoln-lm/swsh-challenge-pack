@@ -4,6 +4,7 @@
 #include "gift_tms.hpp"
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
+#include "gui/Tracker.hpp"
 #include "gui/InputManager.hpp"
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
@@ -33,10 +34,18 @@ extern "C" {
 void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     InputManager::updateControllerState();
     if (!SettingsMenu::getIsOpen()) {
-        return;
+        if (InputManager::isJustPressed(nn::hid::NpadButton::R)) {
+            if (Tracker::getIsOpen()) {
+                Tracker::close();
+            } else {
+                Tracker::open(nullptr);
+            }
+        }
     }
     SettingsMenu::inputHandling();
     SettingsMenu::draw(renderer);
+    Tracker::inputHandling();
+    Tracker::draw(renderer);
 }
 
 void installModHooks() {

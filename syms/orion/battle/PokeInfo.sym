@@ -1,0 +1,15 @@
+@game:shield
+_ZN5orion5field8PokeInfo10GetSpeciesEv = 0x7783b0
+_ZN5orion5field8PokeInfo7GetFormEv = 0x7783c0
+_ZN5orion5field8PokeInfo9GetNatureEv = 0x77cd00
+_ZN5orion5field8PokeInfo11GetHeldItemEv = 0x7787f0
+_ZN5orion5field8PokeInfo12GetCurrentHPEv = 0x77afd0
+_ZN5orion5field8PokeInfo9GetAttackEv = 0x77ad00
+_ZN5orion5field8PokeInfo10GetDefenseEv = 0x77ad90
+_ZN5orion5field8PokeInfo16GetSpecialAttackEv = 0x77ae20
+_ZN5orion5field8PokeInfo17GetSpecialDefenseEv = 0x77aeb0
+_ZN5orion5field8PokeInfo8GetSpeedEv = 0x77af40
+_ZN5orion5field8PokeInfo8GetMaxHPEv = 0x77ac70
+_ZN5orion5field8PokeInfo10GetAbilityEv = 0x77cdb0
+_ZN5orion5field8PokeInfo8GetLevelEv = 0x77a5f0
+_ZN5orion5field8PokeInfo9CalcLevelEjjj = 0x776c70

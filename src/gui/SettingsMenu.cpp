@@ -49,6 +49,7 @@ namespace gui::SettingsMenu {
     }
 
     void inputHandling() {
+        if (!isOpen) return;
         if (InputManager::isJustPressed(nn::hid::NpadButton::Up) || InputManager::isJustPressed(nn::hid::NpadButton::StickLUp)) {
             if (selectedIndex > 0) {
                 selectedIndex--;
@@ -81,6 +82,7 @@ namespace gui::SettingsMenu {
     }
     void draw(hk::gfx::DebugRenderer* renderer)
     {
+        if (!isOpen) return;
         ExtendedRenderer ext_renderer(renderer);
         renderer->setGlyphSize(1.0);
 
