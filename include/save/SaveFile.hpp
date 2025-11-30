@@ -70,6 +70,7 @@ namespace save {
         SETTING(BooleanSetting, skipIntro, "Skip Intro", "Skips the intro cutscene with Rose (and any other \"sequences\").", true, true, true);
         SETTING(BooleanSetting, instantText, "Instant Text", "Instantly displays text when available. Additionally skips any \"wait\" commands while B is held.", true, true, true);
         SETTING(BooleanSetting, routeRestriction, "Nuzlocke Route Restriction", "Removes all spawns, fishing points, and raid dens from a route after a pokemon from the route has been caught or fainted. In the wild area, this is per what the game considers \"zones\".", true, false, true);
+        SETTING(BooleanSetting, permadeath, "Nuzlocke Permadeath", "When one of your pokemon faint they are removed from your party permanently.", true, false, true);
         SETTING(BooleanSetting, randomizeWildEncounters, "Randomize Wild Encounters", "Randomize the species, form, ability, etc. of wild pokemon including gimmick spawns (strong spawns). (has subsettings)", true, false, true);
         SETTING(BooleanSetting, liveRandomizeWildEncounters, "Live Randomization", "Generates a random pokemon *each* time a wild pokemon is generated rather than referencing a static table for each route.", true, true, true);
         SETTING(BooleanSetting, wildLevelBoost, "Boost Level", "Boosts the level of wild pokemon by roughly 1.5x.", true, true, true);
@@ -102,6 +103,7 @@ namespace save {
             &gSaveFile.skipIntro,
             &gSaveFile.instantText,
             &gSaveFile.routeRestriction,
+            &gSaveFile.permadeath,
             &gSaveFile.randomizeWildEncounters,
             &gSaveFile.liveRandomizeWildEncounters,
             &gSaveFile.wildLevelBoost,

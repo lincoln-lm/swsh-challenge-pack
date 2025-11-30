@@ -24,14 +24,14 @@ inline void eraseFaintedPokemon(orion::battle::BattleParty* party) {
 
 inline HkTrampoline<void, orion::battle::BattleParty*, u8, u8> detectSwap = hk::hook::trampoline([](orion::battle::BattleParty* this_, u8 index1, u8 index2) {
     detectSwap.orig(this_, index1, index2);
-    if (!sHooksEnabled) return;
+    if (!save::gSaveFile.permadeath || !sHooksEnabled) return;
     eraseFaintedPokemon(this_);
 });
 
 inline u8 sOutOfBattleCount = 0;
 
 inline HkTrampoline<void, orion::battle::PartyManager*, orion::field::Party**, u8, u8*> fixParty = hk::hook::trampoline([](orion::battle::PartyManager* this_, orion::field::Party** outOfBattlePartyPtr, u8 playerId, u8* touched) {
-    if (sHooksEnabled) {
+    if (save::gSaveFile.permadeath && sHooksEnabled) {
         auto party = this_->Get(playerId);
         eraseFaintedPokemon(party);
         sOutOfBattleCount = party->size;
@@ -44,7 +44,7 @@ inline auto fixPartyCount = hook::inlineHook([](hook::CpuState* state) {
     // x21 = battle party count
     // original instruction
     state->X[19] = state->X[21];
-    if (sHooksEnabled) {
+    if (save::gSaveFile.permadeath && sHooksEnabled) {
         state->X[21] = sOutOfBattleCount;
     }
 });
