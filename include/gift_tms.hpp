@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/pawn/amx.h"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
@@ -107,7 +108,7 @@ constexpr TMFunctionIdentifier TM_IDENTIFIERS[] = {
 };
 
 inline HkTrampoline<void, AMX*, cell, cell*, cell*> replaceGiftTMs = hk::hook::trampoline([](AMX *amx, cell index, cell *result, cell *params) {
-    if (save::gSaveFile.randomizeGiftTMs) {
+    if (save::gSaveFile.randomizeGiftTMs && sHooksEnabled) {
         u64 param_count = params[0] / sizeof(cell);
         for (auto& identifier : TM_IDENTIFIERS) {
             if (amx->cip != identifier.cip)

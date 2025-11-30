@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hook/InlineHook.hpp"
+#include "mod_hooks.hpp"
 #include "orion/trainer/Data.hpp"
 #include "orion/filesystem/GFFile.hpp"
 #include "rng/RngManager.hpp"
@@ -15,7 +16,7 @@ inline auto randomizeTrainerTeams = hook::inlineHook([](hook::CpuState* state) {
     size file_buffer_size = trainer_poke_file->bufferSize;
     s32 team_size = file_buffer_size / sizeof(orion::trainer::TrainerPokemon);
 
-    if (save::gSaveFile.randomizeTrainerTeams) {
+    if (save::gSaveFile.randomizeTrainerTeams && sHooksEnabled) {
         auto rng = RngManager::NewRandomGenerator(file_path);
         for (int i = 0; i < team_size; i++) {
             if (trainer_team[i].level == 0 || trainer_team[i].level > 100 || trainer_team[i].species == 0) {

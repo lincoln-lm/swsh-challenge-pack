@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/shop/ShopManager.hpp"
 #include "save/SaveFile.hpp"
 #include "util/Data.hpp"
@@ -12,7 +13,7 @@ inline std::vector<u8> sLastSelectedInventory;
 
 inline HkTrampoline<void, orion::shop::ShopManager*, u64*, u8> shopFilter = hk::hook::trampoline([](orion::shop::ShopManager* this_, u64* hash_ptr, u8 index) {
     shopFilter.orig(this_, hash_ptr, index);
-    if (!save::gSaveFile.filterShop) {
+    if (!save::gSaveFile.filterShop || !sHooksEnabled) {
         return;
     }
     auto original_inventory = this_->mActiveInventory;

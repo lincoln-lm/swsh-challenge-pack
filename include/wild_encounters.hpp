@@ -2,6 +2,7 @@
 
 #include "hk/hook/Trampoline.h"
 #include "hook/InlineHook.hpp"
+#include "mod_hooks.hpp"
 #include "orion/field/FieldObject.hpp"
 #include "orion/field/encounter/OverworldEncounterManager.hpp"
 #include "rng/RngManager.hpp"
@@ -15,7 +16,7 @@ inline auto randomizeGimmickEncounters = hook::inlineHook([](hook::CpuState* sta
     auto gimmick_spec = pun<orion::field::encounter::GimmickSpec*>(state->X[1]);
     auto overworld_spec_out = pun<orion::field::encounter::OverworldSpec*>(state->X[2]);
     
-    if (save::gSaveFile.randomizeWildEncounters) {
+    if (save::gSaveFile.randomizeWildEncounters && sHooksEnabled) {
         auto weather = orion::field::encounter::GetCurrentWeather();
         u64 gimmick_spawner_hash = gimmick_encount_spawner->uniqueHash;
         const std::string seed = std::format(
@@ -54,7 +55,7 @@ inline auto randomizeSymbolEncounters = hook::inlineHook([](hook::CpuState* stat
     auto data = pun<orion::field::encounter::SymbolEncounterAreaTables*>(state->X[19]);
     // original instruction
     data->isValid = true;
-    if (!save::gSaveFile.randomizeWildEncounters) {
+    if (!save::gSaveFile.randomizeWildEncounters || !sHooksEnabled) {
         return;
     }
     const std::string seed = std::format("symbol_encounter_table_{}", data->hash);
@@ -78,7 +79,7 @@ inline auto randomizeHiddenEncounters = hook::inlineHook([](hook::CpuState* stat
     auto data = pun<orion::field::encounter::HiddenEncounterAreaTables*>(state->X[19]);
     // original instruction
     data->isValid = true;
-    if (!save::gSaveFile.randomizeWildEncounters) {
+    if (!save::gSaveFile.randomizeWildEncounters || !sHooksEnabled) {
         return;
     }
     const std::string seed = std::format("hidden_encounter_table_{}", data->hash);
@@ -99,7 +100,7 @@ inline auto randomizeHiddenEncounters = hook::inlineHook([](hook::CpuState* stat
 });
 
 inline HkTrampoline<void, orion::field::encounter::EncounterGenerator*, orion::field::encounter::OverworldSpec*, orion::field::encounter::EncounterSlot*, s32, s32, void*> liveRandomizeSlotSpawns = hk::hook::trampoline([](orion::field::encounter::EncounterGenerator* this_, orion::field::encounter::OverworldSpec* spec, orion::field::encounter::EncounterSlot* slot, s32 minLevel, s32 maxLevel, void* flags) {
-    if (save::gSaveFile.liveRandomizeWildEncounters) {
+    if (save::gSaveFile.liveRandomizeWildEncounters && sHooksEnabled) {
         auto rng = RngManager::NewRandomGenerator();
         auto [species, form] = rng.RandSpeciesAndForm();
         if (save::gSaveFile.wildLevelBoost) {

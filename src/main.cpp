@@ -1,26 +1,11 @@
-#include "event_encounters.hpp"
-#include "evolutions.hpp"
-#include "field_items.hpp"
-#include "gift_tms.hpp"
 #include "gui/hooks.hpp"
 #include "gui/SettingsMenu.hpp"
 #include "gui/Tracker.hpp"
 #include "gui/InputManager.hpp"
 #include "hk/mem/BssHeap.h"
 #include "hk/hook/Trampoline.h"
-#include "level_cap.hpp"
+#include "mod_hooks.hpp"
 #include "orion/field/FieldManager.hpp"
-#include "learnset.hpp"
-#include "gift_encounters.hpp"
-#include "permadeath.hpp"
-#include "pokemon_model.hpp"
-#include "quality_of_life.hpp"
-#include "route_restriction.hpp"
-#include "save_detection.hpp"
-#include "shop_filter.hpp"
-#include "trainer_teams.hpp"
-#include "wild_encounters.hpp"
-#include "personal_total.hpp"
 
 extern "C" {
     void* __libc_malloc(std::size_t size) {
@@ -48,27 +33,8 @@ void gui::onFrame(hk::gfx::DebugRenderer* renderer) {
     Tracker::draw(renderer);
 }
 
-void installModHooks() {
-    installQualityOfLifeHooks();
-    installPokemonModelHooks();
-    installGiftEncountersHooks();
-    installEventEncountersHooks();
-    installWildEncountersHooks();
-    installTrainerTeamsHooks();
-    installEvolutionsHooks();
-    installFieldItemsHooks();
-    installLearnsetHooks();
-    installPersonalTotalHooks();
-    installShopFilterHooks();
-    installGiftTMsHooks();
-    installLevelCapHooks();
-    installRouteRestrictionHooks();
-    installSaveDetectionHooks();
-    installPermadeathHooks();
-}
-
 HkTrampoline<orion::field::FieldManager*, orion::field::FieldManager*, int, void*, u64> onGameInit = hk::hook::trampoline([](orion::field::FieldManager* this_, int param_1, void* param_2, u64 param_3) -> orion::field::FieldManager* {
-    gui::SettingsMenu::open(installModHooks);
+    gui::SettingsMenu::open([] {sHooksEnabled = true;});
     return onGameInit.orig(this_, param_1, param_2, param_3);
 });
 
@@ -77,4 +43,5 @@ extern "C" void hkMain()
     // arbitrary function only called once at game init some time past nnMain
     onGameInit.installAtPtr(pun<void*>(&orion::field::FieldManager::ctor));
     gui::installHooks();
+    installModHooks();
 }

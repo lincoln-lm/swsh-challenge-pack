@@ -1,10 +1,14 @@
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/personal/PersonalInfo.hpp"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
 
 inline HkTrampoline<void, orion::personal::PersonalInfo*, u16, u16> randomizePersonalInfo = hk::hook::trampoline([](orion::personal::PersonalInfo* out, u16 species, u16 form) {
     randomizePersonalInfo.orig(out, species, form);
+    if (!sHooksEnabled) {
+        return;
+    }
     if (species == 0 && form == 0) {
         return;
     }

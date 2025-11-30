@@ -1,5 +1,6 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "nn/hid.h"
 #include "orion/movie/BSeqHandler.hpp"
 #include "orion/options/OptionsHolder.hpp"
@@ -8,7 +9,7 @@
 #include "gui/InputManager.hpp"
 
 inline HkTrampoline<void, orion::movie::BSeqHandler*, u64> skipBSeq = hk::hook::trampoline([](orion::movie::BSeqHandler* this_, u64 param_1) -> void {
-    if (save::gSaveFile.qualityOfLife && save::gSaveFile.skipIntro) {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.skipIntro && sHooksEnabled) {
         if (auto gf_file = this_->gfFile; gf_file != nullptr) {
             const char* file_path = gf_file->filePath;
             if (
@@ -30,7 +31,7 @@ inline HkTrampoline<void, orion::movie::BSeqHandler*, u64> skipBSeq = hk::hook::
 });
 
 inline HkTrampoline<orion::options::TextSpeed, orion::options::OptionsHolder*> instantText = hk::hook::trampoline([](orion::options::OptionsHolder* this_) -> orion::options::TextSpeed {
-    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText) {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && sHooksEnabled) {
         // out of range setting causes instant text
         return orion::options::TextSpeed::Invalid;
     }
@@ -38,14 +39,14 @@ inline HkTrampoline<orion::options::TextSpeed, orion::options::OptionsHolder*> i
 });
 
 inline HkTrampoline<ucell, orion::pawn::AMX*, ucell*> skipTextWait = hk::hook::trampoline([](orion::pawn::AMX* amx, ucell* params) -> ucell {
-    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && sHooksEnabled && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
         return 0;
     }
     return skipTextWait.orig(amx, params);
 });
 
 inline HkTrampoline<ucell, orion::pawn::AMX*, ucell*> skipMessageClose = hk::hook::trampoline([](orion::pawn::AMX* amx, ucell* params) -> ucell {
-    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
+    if (save::gSaveFile.qualityOfLife && save::gSaveFile.instantText && sHooksEnabled && gui::InputManager::isPressed(nn::hid::NpadButton::B)) {
         return 1;
     }
     return skipMessageClose.orig(amx, params);

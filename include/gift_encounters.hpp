@@ -1,6 +1,7 @@
 #pragma once
 #include "hk/hook/Trampoline.h"
 #include "hk/types.h"
+#include "mod_hooks.hpp"
 #include "orion/field/encounter/GiftEncounterManager.hpp"
 #include "orion/field/encounter/GiftEncounter_flatbuffer.h"
 #include "rng/RngManager.hpp"
@@ -8,7 +9,7 @@
 
 inline HkTrampoline<orion::field::encounter::flatbuffers::GiftEncounter*, orion::field::encounter::GiftEncounterManager*, u64*> randomizeGiftEncounters = hk::hook::trampoline([](orion::field::encounter::GiftEncounterManager* this_, u64* hash_ptr) {
     auto original_encounter = randomizeGiftEncounters.orig(this_, hash_ptr);
-    if (!save::gSaveFile.randomizeGiftEncounters) {
+    if (!save::gSaveFile.randomizeGiftEncounters || !sHooksEnabled) {
         return original_encounter;
     }
     auto rng = RngManager::NewRandomGenerator(*hash_ptr);

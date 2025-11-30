@@ -4,6 +4,7 @@
 #include <set>
 #include "hk/hook/Trampoline.h"
 #include "hk/types.h"
+#include "mod_hooks.hpp"
 #include "orion/field/AreaLoader.hpp"
 #include "orion/field/FieldObject.hpp"
 #include "orion/field/FileCache.hpp"
@@ -76,7 +77,7 @@ static void replace_species_form(u64 hash, s32* species_ptr, s16* form_ptr) {
 inline auto randomizePokemonModelsOnLoad = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[9] = *pun<s32*>(state->X[27]);
-    if (!save::gSaveFile.randomizePokemonModels) {
+    if (!save::gSaveFile.randomizePokemonModels || !sHooksEnabled) {
         return;
     }
     auto fb = pun<orion::field::flatbuffers::PokemonModel*>(state->X[27]);
@@ -101,7 +102,7 @@ constexpr u64 cPokemonCenterHashes[6] = {
 inline auto randomizePokemonModels = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[8] = *pun<s32*>(state->X[20]);
-    if (!save::gSaveFile.randomizePokemonModels) {
+    if (!save::gSaveFile.randomizePokemonModels || !sHooksEnabled) {
         return;
     }
     if (sIsConstructingEncountObject) {

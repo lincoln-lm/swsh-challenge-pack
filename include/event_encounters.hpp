@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/field/FieldObject.hpp"
 #include "orion/field/encounter/EventEncounterManager.hpp"
 #include "rng/RngManager.hpp"
@@ -19,7 +20,7 @@ inline HkTrampoline<orion::field::encounter::EventEncounter*, orion::field::enco
     auto original_encounter = randomizeEventEncounters.orig(this_, hashPtr);
     // don't randomize gimmick spawns (here)
     
-    if (sIsGimmickSpawnerInit || !save::gSaveFile.randomizeEventEncounters) {
+    if (sIsGimmickSpawnerInit || !sHooksEnabled || !save::gSaveFile.randomizeEventEncounters) {
         return original_encounter;
     }
 

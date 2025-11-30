@@ -1,12 +1,13 @@
 #pragma once
 
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/learn/Data.hpp"
 #include "rng/RngManager.hpp"
 #include "save/SaveFile.hpp"
 
 inline HkTrampoline<void, orion::learn::Learnset*, s32, s32> randomizeLearnsets = hk::hook::trampoline([](orion::learn::Learnset* out, s32 species, s32 form) {
-    if (!save::gSaveFile.randomizeLearnsets) {
+    if (!save::gSaveFile.randomizeLearnsets || !sHooksEnabled) {
         randomizeLearnsets.orig(out, species, form);
         return;
     }

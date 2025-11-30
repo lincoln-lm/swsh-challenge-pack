@@ -2,6 +2,7 @@
 
 #include "hk/types.h"
 #include "hook/InlineHook.hpp"
+#include "mod_hooks.hpp"
 #include "orion/field/EventManager.hpp"
 #include "orion/field/FieldObject.hpp"
 #include "rng/RngManager.hpp"
@@ -11,7 +12,7 @@
 inline auto randomizeBallItem = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[5] = 0;
-    if (!save::gSaveFile.randomizeFieldItems) {
+    if (!save::gSaveFile.randomizeFieldItems || !sHooksEnabled) {
         return;
     }
 
@@ -30,7 +31,7 @@ inline auto randomizeBallItem = hook::inlineHook([](hook::CpuState* state) {
 inline auto randomizeSparkleItem = hook::inlineHook([](hook::CpuState* state) {
     // original instruction
     state->X[5] = 0;
-    if (!save::gSaveFile.randomizeFieldItems) {
+    if (!save::gSaveFile.randomizeFieldItems || !sHooksEnabled) {
         return;
     }
 

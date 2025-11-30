@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hk/hook/Trampoline.h"
+#include "mod_hooks.hpp"
 #include "orion/evolution/Data.hpp"
 #include "orion/personal/PersonalInfo.hpp"
 #include "rng/RngManager.hpp"
@@ -10,7 +11,7 @@
 
 inline HkTrampoline<void, orion::evolution::EvolutionSet*, u32, u32> randomizeEvolutions = hk::hook::trampoline([](orion::evolution::EvolutionSet* set, u32 species, u32 form) {
     randomizeEvolutions.orig(set, species, form);
-    if (!save::gSaveFile.randomizeEvolutions) return;
+    if (!save::gSaveFile.randomizeEvolutions || !sHooksEnabled) return;
     u8 base_type_1 = util::getPersonalInfoField(species, form, orion::personal::InfoField::TYPE_1);
     u8 base_type_2 = util::getPersonalInfoField(species, form, orion::personal::InfoField::TYPE_2);
     u8 base_exp_growth = util::getPersonalInfoField(species, form, orion::personal::InfoField::EXP_GROWTH);
@@ -92,7 +93,7 @@ inline HkTrampoline<void, u32, u32> logLastEvolution = hk::hook::trampoline([](u
 
 inline HkTrampoline<bool, orion::evolution::EvolutionSetCache*, u32, u32, orion::evolution::EvolutionSet*> invalidateCache = hk::hook::trampoline([](orion::evolution::EvolutionSetCache* cache, u32 species, u32 form, orion::evolution::EvolutionSet* out) {
     // invalidate the cache if we're randomizing evolutions each level so that the same species doesn't always get the same evolution
-    bool shouldnt_hook = !save::gSaveFile.randomizeEvolutions || !save::gSaveFile.randomizeEvolutionsEachLevel;
+    bool shouldnt_hook = !save::gSaveFile.randomizeEvolutions || !save::gSaveFile.randomizeEvolutionsEachLevel || !sHooksEnabled;
     // the game queries the evolution cache multiple times per actual evolution.
     // this means we cannot just invalidate the cache every time and must only invalidate it if the species/form has changed.
     // technically, if the player evolves the same species twice in a row it will maintain the cache, but this is unlikely enough to not matter.

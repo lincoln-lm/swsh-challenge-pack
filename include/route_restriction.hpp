@@ -2,6 +2,7 @@
 
 #include "hk/hook/Trampoline.h"
 #include "hook/InlineHook.hpp"
+#include "mod_hooks.hpp"
 #include "orion/battle/BattleResult.hpp"
 #include "orion/field/AreaLoader.hpp"
 #include "orion/field/BattleStateManager.hpp"
@@ -24,14 +25,18 @@ inline void filterObject(orion::field::FieldObject* object) {
 
 inline auto filterLazyFieldObject = hook::inlineHook([](hook::CpuState* state) {
     auto new_object = pun<orion::field::FieldObject*>(state->X[0]);
-    filterObject(new_object);
+    if (save::gSaveFile.routeRestriction && sHooksEnabled) {
+        filterObject(new_object);
+    }
     // original instruction
     state->X[8] = pun<u64>(util::getVTable(new_object));
 });
 
 inline auto filterInitialFieldObject = hook::inlineHook([](hook::CpuState* state) {
     auto new_object = pun<orion::field::FieldObject*>(state->X[0]);
-    filterObject(new_object);
+    if (save::gSaveFile.routeRestriction && sHooksEnabled) {
+        filterObject(new_object);
+    }
     // original instruction
     state->X[22] += 0x20;
 });
@@ -53,7 +58,7 @@ inline auto logSpawner = hook::InlineHook([](hook::CpuState* state) {
 });
 
 inline HkTrampoline<int, orion::field::BattleStateManager*, void*> addBlacklistedRoute = hk::hook::trampoline([](orion::field::BattleStateManager* this_, void* p1) {
-    if (save::gSaveFile.routeRestriction) {
+    if (save::gSaveFile.routeRestriction && sHooksEnabled) {
         if (this_->mState == orion::field::BattleStateManager::State::BATTLE_END) {
             if (this_->mBattleType == orion::field::BattleStateManager::BattleType::WILD) {
                 if (orion::battle::sBattleResult->mBattleOutcome == orion::battle::BattleResult::BattleOutcome::Capture
