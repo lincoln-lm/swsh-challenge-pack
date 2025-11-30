@@ -1,5 +1,6 @@
 @rtld = nnrtld
 @game = main.nss
 shield = A16802625E7826BF83B6F9708E475B912A9AB7DF
+sword = A3B75BCD3311385AEED67FBEEB79CBB7BF02F471
 @multimedia
 @sdk = nnSdk
